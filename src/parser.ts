@@ -1,5 +1,13 @@
-import { CharStream, ParserRuleContext, Token } from "antlr4";
-import { Parser, ParserOptions } from "prettier";
+import { Parser as prettierParser, ParserOptions } from "prettier";
+import PluscalParser from "./antlr/PluscalParser";
+import CommonTokenStream from "antlr4/CommonTokenStream";
+import Lexer from "antlr4/Lexer";
+import ParserRuleContext from "antlr4/context/ParserRuleContext";
+import CharStreams from "antlr4/CharStreams";
+import Parser from "antlr4/Parser.js";
+import PluscalLexer from "./antlr/PluscalLexer";
+import { TokenStream } from "antlr4";
+import { CustomVisitor } from "./CustomVisitor";
 
 function locStart(node: ParserRuleContext): number {
   return node.start.start;
@@ -13,33 +21,27 @@ function locEnd(node: ParserRuleContext): number {
 function parse(
   text: string,
   options: ParserOptions<any>
-): Token | Promise<Token> {
+): Parser & PluscalParser | Promise<Parser & PluscalParser> {
   console.log(options);
-  const token: Token = {
-    tokenIndex: 0,
-    line: 0,
-    column: 0,
-    channel: 0,
-    text: "",
-    type: 0,
-    start: 0,
-    stop: 0,
-    clone: function (): Token {
-      throw new Error("Function not implemented.");
-    },
-    cloneWithType: function (type: number): Token {
-      throw new Error("Function not implemented.");
-    },
-    getInputStream: function (): CharStream {
-      throw new Error("Function not implemented.");
-    },
-  };
-  //ここでANTLRのつなぎ込みを行う
+  const input = text;
+  const chars = CharStreams.fromString(input);
+  const lexer: PluscalLexer = new PluscalLexer(chars);
+  const tokens = new CommonTokenStream(lexer as unknown as Lexer);
+  const parser = new PluscalParser(
+    tokens as unknown as TokenStream
+  ) as unknown as Parser & PluscalParser;
+  parser.buildParseTrees = true;
+  parser.addContextToParseTree
+  const topNode = parser.algorithm()
+  // const tree = parser.algorithm(); //memo: あとで必要なcontextのみを抽出する
+  topNode.accept(new CustomVisitor())
 
-  return token;
+  topNode.ruleContext
+
+  return parser;
 }
 
-const parser: Record<string, Parser> = {
+const parser: Record<string, prettierParser> = {
   pluscal: {
     parse,
     astFormat: "pluscal-ast",

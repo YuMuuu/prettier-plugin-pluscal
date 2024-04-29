@@ -6,6 +6,7 @@
     "start": "npm run build:live",
     "build": "tsc -p .",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts",
+    "generateParser": "cd ./src/antlr && antlr -Dlanguage=TypeScript Pluscal.g4 -visitor",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -28,5 +29,10 @@
     "@types/antlr4": "^4.11.6",
     "antlr4": "^4.13.1-patch-1",
     "prettier": "^3.2.5"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/antlr4/index.d.ts"
+    }
   }
 }

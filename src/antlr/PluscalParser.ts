@@ -12,6 +12,8 @@ import {
 	Interval, IntervalSet
 } from 'antlr4';
 import PluscalListener from "./PluscalListener.js";
+import PluscalVisitor from "./PluscalVisitor.js";
+
 // for running tests with parameters, TODO: discuss strategy for typed parameters in CI
 // eslint-disable-next-line no-unused-vars
 type int = number;
@@ -284,6 +286,14 @@ export class AlgorithmContext extends ParserRuleContext {
 	public exitRule(listener: PluscalListener): void {
 	    if(listener.exitAlgorithm) {
 	 		listener.exitAlgorithm(this);
+		}
+	}
+	// @Override
+	public accept<Result>(visitor: PluscalVisitor<Result>): Result {
+		if (visitor.visitAlgorithm) {
+			return visitor.visitAlgorithm(this);
+		} else {
+			return visitor.visitChildren(this);
 		}
 	}
 }
