@@ -5,99 +5,91 @@ grammar Pluscal;
 /**
  * parser
  */
-algorithm: ('--algorithm' | '--fair algorithm') Name VarDecls? Definitions? Macro* Procedure* (
-		AlgorithmBody
-		| Process+
+algorithm: ('--algorithm' | '--fair algorithm') NAME vardecls? definitions? macro* procedure* (
+		algorithmbody
+		| process+
 	) 'end algorithm';
 
-Definitions: 'define' Defs 'end define' ';'?;
+definitions: 'define' DEFS 'end define' ';'?;
 
-Macro:
-	'macro' Name (Variable (',' Variable)*)? AlgorithmBody 'end Macro' ';'?;
+macro:
+	'Macro' NAME (VARIABLE (',' VARIABLE)*)? algorithmbody 'end Macro' ';'?;
 
-Procedure:
-	'procedure' Name (PVarDecl (',' PVarDecl)*)? PVarDecls? 'end procedure' ';'?;
+procedure:
+	'procedure' NAME (pvardecl (',' pvardecl)*)? pvardecls? 'end procedure' ';'?;
 
-Process: ('fair' '+'?)? 'process' Name ('=' | '\\in') Expr VarDecls? AlgorithmBody 'end process' ';'
+process: ('fair' '+'?)? 'process' NAME ('=' | '\\in') EXPR vardecls? algorithmbody 'end process' ';'
 		?;
 
-VarDecls: ('variable' | 'variables') VarDecl+;
+vardecls: ('VARIABLE' | 'variables') vardecl+;
 
-VarDecl: Variable (('=' | '\\in') Expr)? (';' | ',');
+vardecl: VARIABLE (('=' | '\\in') EXPR)? (';' | ',');
 
 // ドキュメントに書かれている構文規則
-PVarDecls: ('variable' | 'variables') (PVarDecl | (';' | ','))+;
-// 俺が思う本来の構文規則
-// PVarDecls2: (
-// 		'variable' PVarDecl
-// 		| 'variables' PVarDecl (',' PVarDecl)+
-// 	) ';';
+pvardecls: ('VARIABLE' | 'variables') (pvardecl | (';' | ','))+;
+// 俺が思う本来の構文規則 PVarDecls2: ( 'VARIABLE' PVarDecl | 'variables' PVarDecl (',' PVarDecl)+ ) ';';
 
-PVarDecl: Variable ('=' Expr)?;
+pvardecl: VARIABLE ('=' EXPR)?;
 
-AlgorithmBody: 'begin' Stmt+;
+algorithmbody: 'begin' stmt+;
 
-Stmt: (Label ':' ('+' | '-')?)? UnlabeledStmt;
+stmt: (LABEL ':' ('+' | '-')?)? unlabeledstmt;
 
-UnlabeledStmt:
-	Assign
-	| If
-	| While
-	| Either
-	| With
-	| Await
-	| Print
-	| Assert
-	| Skip
-	| Return
-	| Goto
-	| Call
-	| MacroCall;
+unlabeledstmt:
+	assign
+	| if
+	| while
+	| either
+	| with
+	| await
+	| print
+	| assert
+	| skip
+	| return
+	| goto
+	| call
+	| macrocall;
 
-Assign: LHS ':=' Expr ('||' LHS ':=' Expr)* ';';
+assign: lhs ':=' EXPR ('||' lhs ':=' EXPR)* ';';
 
-LHS: Variable ('[' Expr (',' Expr)* ']' | '.' Field)*;
+lhs: VARIABLE ('[' EXPR (',' EXPR)* ']' | '.' FIELD)*;
 
-If:
-	'if' Expr 'then' Stmt+ ('elsif' Expr 'then' Stmt+)* (
-		'else' Stmt+
+if:
+	'if' EXPR 'then' stmt+ ('elsif' EXPR 'then' stmt+)* (
+		'else' stmt+
 	)? 'end if' ';';
 
-While: 'while' Expr 'do' Stmt+ 'end while' ';';
+while: 'while' EXPR 'do' stmt+ 'end while' ';';
 
-Either: 'eithr' Expr 'do' Stmt+ 'end while' ';';
+either: 'eithr' EXPR 'do' stmt+ 'end while' ';';
 
-With:
-	'with' (Variable ('=' | '\\in') Expr (';' | ','))+ 'do' Stmt+ 'end with ;';
+with:
+	'with' (VARIABLE ('=' | '\\in') EXPR (';' | ','))+ 'do' stmt+ 'end with ;';
 
-Await: ('await' | 'when') Expr ';';
+await: ('await' | 'when') EXPR ';';
 
-Print: 'print' Expr ';';
+print: 'print' EXPR ';';
 
-Assert: 'assert' Expr ';';
+assert: 'assert' EXPR ';';
 
-Skip: 'skip' ';';
+skip: 'skip' ';';
 
-Return: 'return' ';';
+return: 'return' ';';
 
-Goto: 'goto' Label ';';
+goto: 'goto' LABEL ';';
 
-Call: 'call' MacroCall;
+call: 'call' macrocall;
 
-MacroCall: Name (Expr (',' Expr)*)? ';';
+macrocall: NAME (EXPR (',' EXPR)*)? ';';
 
-/**
- * lexer
- */
+VARIABLE: [a-zA-Z_] [a-zA-Z_0-9]*;
 
-Variable: [a-zA-Z_] [a-zA-Z_0-9]*;
+FIELD: [a-zA-Z_] [a-zA-Z_0-9]*;
 
-Field: [a-zA-Z_] [a-zA-Z_0-9]*;
+NAME: [a-zA-Z_] [a-zA-Z_0-9]*;
 
-Name: [a-zA-Z_] [a-zA-Z_0-9]*;
+LABEL: [a-zA-Z_] [a-zA-Z_0-9]*;
 
-Label: [a-zA-Z_] [a-zA-Z_0-9]*;
+EXPR: [a-zA-Z_] [a-zA-Z_0-9]*;
 
-Expr: [a-zA-Z_] [a-zA-Z_0-9]*;
-
-Defs: [a-zA-Z_] [a-zA-Z_0-9]*;
+DEFS: [a-zA-Z_] [a-zA-Z_0-9]*;
