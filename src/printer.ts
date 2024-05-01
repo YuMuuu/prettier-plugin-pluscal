@@ -19,18 +19,6 @@ function genericPrint(
 ) {
   console.log(path, options);
   const node = path.node
-  // switch(node.getText()) {
-  //   case node.Name().getText(): return ""
-  //   case node.AlgorithmBody().getText(): return ""
-  //   case node.VarDecls().getText(): return ""
-  //   case node.Definitions().getText(): return ""
-  //   case node.Macro_list().getText(): return ""
-    // case node.Macro(1).getText(): return ""
-  //   case node.Procedure_list().getText(): return ""
-  //   case node.Procedure(1).getText(): return ""
-  //   case node.Process_list().getText(): return ""
-  //   case node.Process(1).getText(): return ""
-  // }
   node.AlgorithmBody().symbol.type
   new Error("")
 }

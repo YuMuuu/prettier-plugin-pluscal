@@ -65,12 +65,13 @@ export default class PluscalParser extends Parser {
 	public static readonly T__43 = 44;
 	public static readonly T__44 = 45;
 	public static readonly T__45 = 46;
-	public static readonly VARIABLE = 47;
-	public static readonly FIELD = 48;
-	public static readonly NAME = 49;
-	public static readonly LABEL = 50;
-	public static readonly EXPR = 51;
-	public static readonly DEFS = 52;
+	public static readonly T__46 = 47;
+	public static readonly VARIABLE = 48;
+	public static readonly FIELD = 49;
+	public static readonly NAME = 50;
+	public static readonly LABEL = 51;
+	public static readonly EXPR = 52;
+	public static readonly DEFS = 53;
 	public static readonly EOF = Token.EOF;
 	public static readonly RULE_algorithm = 0;
 	public static readonly RULE_definitions = 1;
@@ -111,8 +112,9 @@ export default class PluscalParser extends Parser {
                                                             "'process'", 
                                                             "'='", "'\\in'", 
                                                             "'end process'", 
-                                                            "'VARIABLE'", 
+                                                            "'varialbe'", 
                                                             "'variables'", 
+                                                            "'variable'", 
                                                             "'begin'", "':'", 
                                                             "'-'", "':='", 
                                                             "'||'", "'['", 
@@ -151,7 +153,8 @@ export default class PluscalParser extends Parser {
                                                              null, null, 
                                                              null, null, 
                                                              null, null, 
-                                                             null, "VARIABLE", 
+                                                             null, null, 
+                                                             "VARIABLE", 
                                                              "FIELD", "NAME", 
                                                              "LABEL", "EXPR", 
                                                              "DEFS" ];
@@ -246,7 +249,7 @@ export default class PluscalParser extends Parser {
 			this.state = 78;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case 20:
+			case 21:
 				{
 				this.state = 72;
 				this.algorithmbody();
@@ -347,7 +350,7 @@ export default class PluscalParser extends Parser {
 			this.state = 98;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===47) {
+			if (_la===48) {
 				{
 				this.state = 90;
 				this.match(PluscalParser.VARIABLE);
@@ -415,7 +418,7 @@ export default class PluscalParser extends Parser {
 			this.state = 115;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===47) {
+			if (_la===48) {
 				{
 				this.state = 107;
 				this.pvardecl();
@@ -441,7 +444,7 @@ export default class PluscalParser extends Parser {
 			this.state = 118;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===18 || _la===19) {
+			if (_la===19 || _la===20) {
 				{
 				this.state = 117;
 				this.pvardecls();
@@ -589,7 +592,7 @@ export default class PluscalParser extends Parser {
 				this.state = 146;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===47);
+			} while (_la===48);
 			}
 		}
 		catch (re) {
@@ -670,7 +673,7 @@ export default class PluscalParser extends Parser {
 			{
 			this.state = 155;
 			_la = this._input.LA(1);
-			if(!(_la===18 || _la===19)) {
+			if(!(_la===19 || _la===20)) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -685,7 +688,7 @@ export default class PluscalParser extends Parser {
 				this.state = 158;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case 47:
+				case 48:
 					{
 					this.state = 156;
 					this.pvardecl();
@@ -712,7 +715,7 @@ export default class PluscalParser extends Parser {
 				this.state = 160;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===6 || _la===8 || _la===47);
+			} while (_la===6 || _la===8 || _la===48);
 			}
 		}
 		catch (re) {
@@ -776,7 +779,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 167;
-			this.match(PluscalParser.T__19);
+			this.match(PluscalParser.T__20);
 			this.state = 169;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -790,7 +793,7 @@ export default class PluscalParser extends Parser {
 				this.state = 171;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (((((_la - 28)) & ~0x1F) === 0 && ((1 << (_la - 28)) & 7338785) !== 0));
+			} while (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 7338785) !== 0));
 			}
 		}
 		catch (re) {
@@ -818,20 +821,20 @@ export default class PluscalParser extends Parser {
 			this.state = 178;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===50) {
+			if (_la===51) {
 				{
 				this.state = 173;
 				this.match(PluscalParser.LABEL);
 				this.state = 174;
-				this.match(PluscalParser.T__20);
+				this.match(PluscalParser.T__21);
 				this.state = 176;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-				if (_la===13 || _la===22) {
+				if (_la===13 || _la===23) {
 					{
 					this.state = 175;
 					_la = this._input.LA(1);
-					if(!(_la===13 || _la===22)) {
+					if(!(_la===13 || _la===23)) {
 					this._errHandler.recoverInline(this);
 					}
 					else {
@@ -870,92 +873,92 @@ export default class PluscalParser extends Parser {
 			this.state = 195;
 			this._errHandler.sync(this);
 			switch (this._input.LA(1)) {
-			case 47:
+			case 48:
 				this.enterOuterAlt(localctx, 1);
 				{
 				this.state = 182;
 				this.assign();
 				}
 				break;
-			case 28:
+			case 29:
 				this.enterOuterAlt(localctx, 2);
 				{
 				this.state = 183;
 				this.if_();
 				}
 				break;
-			case 33:
+			case 34:
 				this.enterOuterAlt(localctx, 3);
 				{
 				this.state = 184;
 				this.while_();
 				}
 				break;
-			case 36:
+			case 37:
 				this.enterOuterAlt(localctx, 4);
 				{
 				this.state = 185;
 				this.either();
 				}
 				break;
-			case 37:
+			case 38:
 				this.enterOuterAlt(localctx, 5);
 				{
 				this.state = 186;
 				this.with_();
 				}
 				break;
-			case 39:
 			case 40:
+			case 41:
 				this.enterOuterAlt(localctx, 6);
 				{
 				this.state = 187;
 				this.await();
 				}
 				break;
-			case 41:
+			case 42:
 				this.enterOuterAlt(localctx, 7);
 				{
 				this.state = 188;
 				this.print();
 				}
 				break;
-			case 42:
+			case 43:
 				this.enterOuterAlt(localctx, 8);
 				{
 				this.state = 189;
 				this.assert();
 				}
 				break;
-			case 43:
+			case 44:
 				this.enterOuterAlt(localctx, 9);
 				{
 				this.state = 190;
 				this.skip();
 				}
 				break;
-			case 44:
+			case 45:
 				this.enterOuterAlt(localctx, 10);
 				{
 				this.state = 191;
 				this.return_();
 				}
 				break;
-			case 45:
+			case 46:
 				this.enterOuterAlt(localctx, 11);
 				{
 				this.state = 192;
 				this.goto();
 				}
 				break;
-			case 46:
+			case 47:
 				this.enterOuterAlt(localctx, 12);
 				{
 				this.state = 193;
 				this.call();
 				}
 				break;
-			case 49:
+			case 50:
 				this.enterOuterAlt(localctx, 13);
 				{
 				this.state = 194;
@@ -991,21 +994,21 @@ export default class PluscalParser extends Parser {
 			this.state = 197;
 			this.lhs();
 			this.state = 198;
-			this.match(PluscalParser.T__22);
+			this.match(PluscalParser.T__23);
 			this.state = 199;
 			this.match(PluscalParser.EXPR);
 			this.state = 207;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===24) {
+			while (_la===25) {
 				{
 				{
 				this.state = 200;
-				this.match(PluscalParser.T__23);
+				this.match(PluscalParser.T__24);
 				this.state = 201;
 				this.lhs();
 				this.state = 202;
-				this.match(PluscalParser.T__22);
+				this.match(PluscalParser.T__23);
 				this.state = 203;
 				this.match(PluscalParser.EXPR);
 				}
@@ -1045,15 +1048,15 @@ export default class PluscalParser extends Parser {
 			this.state = 227;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===25 || _la===27) {
+			while (_la===26 || _la===28) {
 				{
 				this.state = 225;
 				this._errHandler.sync(this);
 				switch (this._input.LA(1)) {
-				case 25:
+				case 26:
 					{
 					this.state = 213;
-					this.match(PluscalParser.T__24);
+					this.match(PluscalParser.T__25);
 					this.state = 214;
 					this.match(PluscalParser.EXPR);
 					this.state = 219;
@@ -1073,13 +1076,13 @@ export default class PluscalParser extends Parser {
 						_la = this._input.LA(1);
 					}
 					this.state = 222;
-					this.match(PluscalParser.T__25);
+					this.match(PluscalParser.T__26);
 					}
 					break;
-				case 27:
+				case 28:
 					{
 					this.state = 223;
-					this.match(PluscalParser.T__26);
+					this.match(PluscalParser.T__27);
 					this.state = 224;
 					this.match(PluscalParser.FIELD);
 					}
@@ -1117,11 +1120,11 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 230;
-			this.match(PluscalParser.T__27);
+			this.match(PluscalParser.T__28);
 			this.state = 231;
 			this.match(PluscalParser.EXPR);
 			this.state = 232;
-			this.match(PluscalParser.T__28);
+			this.match(PluscalParser.T__29);
 			this.state = 234;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -1135,19 +1138,19 @@ export default class PluscalParser extends Parser {
 				this.state = 236;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (((((_la - 28)) & ~0x1F) === 0 && ((1 << (_la - 28)) & 7338785) !== 0));
+			} while (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 7338785) !== 0));
 			this.state = 248;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			while (_la===30) {
+			while (_la===31) {
 				{
 				{
 				this.state = 238;
-				this.match(PluscalParser.T__29);
+				this.match(PluscalParser.T__30);
 				this.state = 239;
 				this.match(PluscalParser.EXPR);
 				this.state = 240;
-				this.match(PluscalParser.T__28);
+				this.match(PluscalParser.T__29);
 				this.state = 242;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
@@ -1161,7 +1164,7 @@ export default class PluscalParser extends Parser {
 					this.state = 244;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
-				} while (((((_la - 28)) & ~0x1F) === 0 && ((1 << (_la - 28)) & 7338785) !== 0));
+				} while (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 7338785) !== 0));
 				}
 				}
 				this.state = 250;
@@ -1171,10 +1174,10 @@ export default class PluscalParser extends Parser {
 			this.state = 257;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===31) {
+			if (_la===32) {
 				{
 				this.state = 251;
-				this.match(PluscalParser.T__30);
+				this.match(PluscalParser.T__31);
 				this.state = 253;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
@@ -1188,12 +1191,12 @@ export default class PluscalParser extends Parser {
 					this.state = 255;
 					this._errHandler.sync(this);
 					_la = this._input.LA(1);
-				} while (((((_la - 28)) & ~0x1F) === 0 && ((1 << (_la - 28)) & 7338785) !== 0));
+				} while (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 7338785) !== 0));
 				}
 			}
 
 			this.state = 259;
-			this.match(PluscalParser.T__31);
+			this.match(PluscalParser.T__32);
 			this.state = 260;
 			this.match(PluscalParser.T__5);
 			}
@@ -1221,11 +1224,11 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 262;
-			this.match(PluscalParser.T__32);
+			this.match(PluscalParser.T__33);
 			this.state = 263;
 			this.match(PluscalParser.EXPR);
 			this.state = 264;
-			this.match(PluscalParser.T__33);
+			this.match(PluscalParser.T__34);
 			this.state = 266;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -1239,9 +1242,9 @@ export default class PluscalParser extends Parser {
 				this.state = 268;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (((((_la - 28)) & ~0x1F) === 0 && ((1 << (_la - 28)) & 7338785) !== 0));
+			} while (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 7338785) !== 0));
 			this.state = 270;
-			this.match(PluscalParser.T__34);
+			this.match(PluscalParser.T__35);
 			this.state = 271;
 			this.match(PluscalParser.T__5);
 			}
@@ -1269,11 +1272,11 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 273;
-			this.match(PluscalParser.T__35);
+			this.match(PluscalParser.T__36);
 			this.state = 274;
 			this.match(PluscalParser.EXPR);
 			this.state = 275;
-			this.match(PluscalParser.T__33);
+			this.match(PluscalParser.T__34);
 			this.state = 277;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -1287,9 +1290,9 @@ export default class PluscalParser extends Parser {
 				this.state = 279;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (((((_la - 28)) & ~0x1F) === 0 && ((1 << (_la - 28)) & 7338785) !== 0));
+			} while (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 7338785) !== 0));
 			this.state = 281;
-			this.match(PluscalParser.T__34);
+			this.match(PluscalParser.T__35);
 			this.state = 282;
 			this.match(PluscalParser.T__5);
 			}
@@ -1317,7 +1320,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 284;
-			this.match(PluscalParser.T__36);
+			this.match(PluscalParser.T__37);
 			this.state = 289;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -1351,9 +1354,9 @@ export default class PluscalParser extends Parser {
 				this.state = 291;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (_la===47);
+			} while (_la===48);
 			this.state = 293;
-			this.match(PluscalParser.T__33);
+			this.match(PluscalParser.T__34);
 			this.state = 295;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -1367,9 +1370,9 @@ export default class PluscalParser extends Parser {
 				this.state = 297;
 				this._errHandler.sync(this);
 				_la = this._input.LA(1);
-			} while (((((_la - 28)) & ~0x1F) === 0 && ((1 << (_la - 28)) & 7338785) !== 0));
+			} while (((((_la - 29)) & ~0x1F) === 0 && ((1 << (_la - 29)) & 7338785) !== 0));
 			this.state = 299;
-			this.match(PluscalParser.T__37);
+			this.match(PluscalParser.T__38);
 			}
 		}
 		catch (re) {
@@ -1396,7 +1399,7 @@ export default class PluscalParser extends Parser {
 			{
 			this.state = 301;
 			_la = this._input.LA(1);
-			if(!(_la===39 || _la===40)) {
+			if(!(_la===40 || _la===41)) {
 			this._errHandler.recoverInline(this);
 			}
 			else {
@@ -1431,7 +1434,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 305;
-			this.match(PluscalParser.T__40);
+			this.match(PluscalParser.T__41);
 			this.state = 306;
 			this.match(PluscalParser.EXPR);
 			this.state = 307;
@@ -1460,7 +1463,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 309;
-			this.match(PluscalParser.T__41);
+			this.match(PluscalParser.T__42);
 			this.state = 310;
 			this.match(PluscalParser.EXPR);
 			this.state = 311;
@@ -1489,7 +1492,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 313;
-			this.match(PluscalParser.T__42);
+			this.match(PluscalParser.T__43);
 			this.state = 314;
 			this.match(PluscalParser.T__5);
 			}
@@ -1516,7 +1519,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 316;
-			this.match(PluscalParser.T__43);
+			this.match(PluscalParser.T__44);
 			this.state = 317;
 			this.match(PluscalParser.T__5);
 			}
@@ -1543,7 +1546,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 319;
-			this.match(PluscalParser.T__44);
+			this.match(PluscalParser.T__45);
 			this.state = 320;
 			this.match(PluscalParser.LABEL);
 			this.state = 321;
@@ -1572,7 +1575,7 @@ export default class PluscalParser extends Parser {
 			this.enterOuterAlt(localctx, 1);
 			{
 			this.state = 323;
-			this.match(PluscalParser.T__45);
+			this.match(PluscalParser.T__46);
 			this.state = 324;
 			this.macrocall();
 			}
@@ -1604,7 +1607,7 @@ export default class PluscalParser extends Parser {
 			this.state = 335;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
-			if (_la===51) {
+			if (_la===52) {
 				{
 				this.state = 327;
 				this.match(PluscalParser.EXPR);
@@ -1646,7 +1649,7 @@ export default class PluscalParser extends Parser {
 		return localctx;
 	}
 
-	public static readonly _serializedATN: number[] = [4,1,52,340,2,0,7,0,2,
+	public static readonly _serializedATN: number[] = [4,1,53,340,2,0,7,0,2,
 	1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,
 	10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,
 	7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,
@@ -1673,91 +1676,91 @@ export default class PluscalParser extends Parser {
 	1,20,1,20,1,21,1,21,1,21,1,22,1,22,1,22,1,23,1,23,1,23,1,23,1,24,1,24,1,
 	24,1,25,1,25,1,25,1,25,5,25,331,8,25,10,25,12,25,334,9,25,3,25,336,8,25,
 	1,25,1,25,1,25,0,0,26,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,
-	36,38,40,42,44,46,48,50,0,6,1,0,1,2,1,0,15,16,1,0,18,19,2,0,6,6,8,8,2,0,
-	13,13,22,22,1,0,39,40,366,0,52,1,0,0,0,2,82,1,0,0,0,4,88,1,0,0,0,6,105,
-	1,0,0,0,8,128,1,0,0,0,10,142,1,0,0,0,12,148,1,0,0,0,14,155,1,0,0,0,16,162,
-	1,0,0,0,18,167,1,0,0,0,20,178,1,0,0,0,22,195,1,0,0,0,24,197,1,0,0,0,26,
-	212,1,0,0,0,28,230,1,0,0,0,30,262,1,0,0,0,32,273,1,0,0,0,34,284,1,0,0,0,
-	36,301,1,0,0,0,38,305,1,0,0,0,40,309,1,0,0,0,42,313,1,0,0,0,44,316,1,0,
-	0,0,46,319,1,0,0,0,48,323,1,0,0,0,50,326,1,0,0,0,52,53,7,0,0,0,53,55,5,
-	49,0,0,54,56,3,10,5,0,55,54,1,0,0,0,55,56,1,0,0,0,56,58,1,0,0,0,57,59,3,
-	2,1,0,58,57,1,0,0,0,58,59,1,0,0,0,59,63,1,0,0,0,60,62,3,4,2,0,61,60,1,0,
-	0,0,62,65,1,0,0,0,63,61,1,0,0,0,63,64,1,0,0,0,64,69,1,0,0,0,65,63,1,0,0,
-	0,66,68,3,6,3,0,67,66,1,0,0,0,68,71,1,0,0,0,69,67,1,0,0,0,69,70,1,0,0,0,
-	70,78,1,0,0,0,71,69,1,0,0,0,72,79,3,18,9,0,73,75,3,8,4,0,74,73,1,0,0,0,
-	75,76,1,0,0,0,76,74,1,0,0,0,76,77,1,0,0,0,77,79,1,0,0,0,78,72,1,0,0,0,78,
-	74,1,0,0,0,79,80,1,0,0,0,80,81,5,3,0,0,81,1,1,0,0,0,82,83,5,4,0,0,83,84,
-	5,52,0,0,84,86,5,5,0,0,85,87,5,6,0,0,86,85,1,0,0,0,86,87,1,0,0,0,87,3,1,
-	0,0,0,88,89,5,7,0,0,89,98,5,49,0,0,90,95,5,47,0,0,91,92,5,8,0,0,92,94,5,
-	47,0,0,93,91,1,0,0,0,94,97,1,0,0,0,95,93,1,0,0,0,95,96,1,0,0,0,96,99,1,
-	0,0,0,97,95,1,0,0,0,98,90,1,0,0,0,98,99,1,0,0,0,99,100,1,0,0,0,100,101,
-	3,18,9,0,101,103,5,9,0,0,102,104,5,6,0,0,103,102,1,0,0,0,103,104,1,0,0,
-	0,104,5,1,0,0,0,105,106,5,10,0,0,106,115,5,49,0,0,107,112,3,16,8,0,108,
-	109,5,8,0,0,109,111,3,16,8,0,110,108,1,0,0,0,111,114,1,0,0,0,112,110,1,
-	0,0,0,112,113,1,0,0,0,113,116,1,0,0,0,114,112,1,0,0,0,115,107,1,0,0,0,115,
-	116,1,0,0,0,116,118,1,0,0,0,117,119,3,14,7,0,118,117,1,0,0,0,118,119,1,
-	0,0,0,119,120,1,0,0,0,120,122,5,11,0,0,121,123,5,6,0,0,122,121,1,0,0,0,
-	122,123,1,0,0,0,123,7,1,0,0,0,124,126,5,12,0,0,125,127,5,13,0,0,126,125,
-	1,0,0,0,126,127,1,0,0,0,127,129,1,0,0,0,128,124,1,0,0,0,128,129,1,0,0,0,
-	129,130,1,0,0,0,130,131,5,14,0,0,131,132,5,49,0,0,132,133,7,1,0,0,133,135,
-	5,51,0,0,134,136,3,10,5,0,135,134,1,0,0,0,135,136,1,0,0,0,136,137,1,0,0,
-	0,137,138,3,18,9,0,138,140,5,17,0,0,139,141,5,6,0,0,140,139,1,0,0,0,140,
-	141,1,0,0,0,141,9,1,0,0,0,142,144,7,2,0,0,143,145,3,12,6,0,144,143,1,0,
-	0,0,145,146,1,0,0,0,146,144,1,0,0,0,146,147,1,0,0,0,147,11,1,0,0,0,148,
-	151,5,47,0,0,149,150,7,1,0,0,150,152,5,51,0,0,151,149,1,0,0,0,151,152,1,
-	0,0,0,152,153,1,0,0,0,153,154,7,3,0,0,154,13,1,0,0,0,155,158,7,2,0,0,156,
-	159,3,16,8,0,157,159,7,3,0,0,158,156,1,0,0,0,158,157,1,0,0,0,159,160,1,
-	0,0,0,160,158,1,0,0,0,160,161,1,0,0,0,161,15,1,0,0,0,162,165,5,47,0,0,163,
-	164,5,15,0,0,164,166,5,51,0,0,165,163,1,0,0,0,165,166,1,0,0,0,166,17,1,
-	0,0,0,167,169,5,20,0,0,168,170,3,20,10,0,169,168,1,0,0,0,170,171,1,0,0,
-	0,171,169,1,0,0,0,171,172,1,0,0,0,172,19,1,0,0,0,173,174,5,50,0,0,174,176,
-	5,21,0,0,175,177,7,4,0,0,176,175,1,0,0,0,176,177,1,0,0,0,177,179,1,0,0,
-	0,178,173,1,0,0,0,178,179,1,0,0,0,179,180,1,0,0,0,180,181,3,22,11,0,181,
-	21,1,0,0,0,182,196,3,24,12,0,183,196,3,28,14,0,184,196,3,30,15,0,185,196,
-	3,32,16,0,186,196,3,34,17,0,187,196,3,36,18,0,188,196,3,38,19,0,189,196,
-	3,40,20,0,190,196,3,42,21,0,191,196,3,44,22,0,192,196,3,46,23,0,193,196,
-	3,48,24,0,194,196,3,50,25,0,195,182,1,0,0,0,195,183,1,0,0,0,195,184,1,0,
-	0,0,195,185,1,0,0,0,195,186,1,0,0,0,195,187,1,0,0,0,195,188,1,0,0,0,195,
-	189,1,0,0,0,195,190,1,0,0,0,195,191,1,0,0,0,195,192,1,0,0,0,195,193,1,0,
-	0,0,195,194,1,0,0,0,196,23,1,0,0,0,197,198,3,26,13,0,198,199,5,23,0,0,199,
-	207,5,51,0,0,200,201,5,24,0,0,201,202,3,26,13,0,202,203,5,23,0,0,203,204,
-	5,51,0,0,204,206,1,0,0,0,205,200,1,0,0,0,206,209,1,0,0,0,207,205,1,0,0,
-	0,207,208,1,0,0,0,208,210,1,0,0,0,209,207,1,0,0,0,210,211,5,6,0,0,211,25,
-	1,0,0,0,212,227,5,47,0,0,213,214,5,25,0,0,214,219,5,51,0,0,215,216,5,8,
-	0,0,216,218,5,51,0,0,217,215,1,0,0,0,218,221,1,0,0,0,219,217,1,0,0,0,219,
-	220,1,0,0,0,220,222,1,0,0,0,221,219,1,0,0,0,222,226,5,26,0,0,223,224,5,
-	27,0,0,224,226,5,48,0,0,225,213,1,0,0,0,225,223,1,0,0,0,226,229,1,0,0,0,
-	227,225,1,0,0,0,227,228,1,0,0,0,228,27,1,0,0,0,229,227,1,0,0,0,230,231,
-	5,28,0,0,231,232,5,51,0,0,232,234,5,29,0,0,233,235,3,20,10,0,234,233,1,
-	0,0,0,235,236,1,0,0,0,236,234,1,0,0,0,236,237,1,0,0,0,237,248,1,0,0,0,238,
-	239,5,30,0,0,239,240,5,51,0,0,240,242,5,29,0,0,241,243,3,20,10,0,242,241,
-	1,0,0,0,243,244,1,0,0,0,244,242,1,0,0,0,244,245,1,0,0,0,245,247,1,0,0,0,
-	246,238,1,0,0,0,247,250,1,0,0,0,248,246,1,0,0,0,248,249,1,0,0,0,249,257,
-	1,0,0,0,250,248,1,0,0,0,251,253,5,31,0,0,252,254,3,20,10,0,253,252,1,0,
-	0,0,254,255,1,0,0,0,255,253,1,0,0,0,255,256,1,0,0,0,256,258,1,0,0,0,257,
-	251,1,0,0,0,257,258,1,0,0,0,258,259,1,0,0,0,259,260,5,32,0,0,260,261,5,
-	6,0,0,261,29,1,0,0,0,262,263,5,33,0,0,263,264,5,51,0,0,264,266,5,34,0,0,
-	265,267,3,20,10,0,266,265,1,0,0,0,267,268,1,0,0,0,268,266,1,0,0,0,268,269,
-	1,0,0,0,269,270,1,0,0,0,270,271,5,35,0,0,271,272,5,6,0,0,272,31,1,0,0,0,
-	273,274,5,36,0,0,274,275,5,51,0,0,275,277,5,34,0,0,276,278,3,20,10,0,277,
-	276,1,0,0,0,278,279,1,0,0,0,279,277,1,0,0,0,279,280,1,0,0,0,280,281,1,0,
-	0,0,281,282,5,35,0,0,282,283,5,6,0,0,283,33,1,0,0,0,284,289,5,37,0,0,285,
-	286,5,47,0,0,286,287,7,1,0,0,287,288,5,51,0,0,288,290,7,3,0,0,289,285,1,
-	0,0,0,290,291,1,0,0,0,291,289,1,0,0,0,291,292,1,0,0,0,292,293,1,0,0,0,293,
-	295,5,34,0,0,294,296,3,20,10,0,295,294,1,0,0,0,296,297,1,0,0,0,297,295,
-	1,0,0,0,297,298,1,0,0,0,298,299,1,0,0,0,299,300,5,38,0,0,300,35,1,0,0,0,
-	301,302,7,5,0,0,302,303,5,51,0,0,303,304,5,6,0,0,304,37,1,0,0,0,305,306,
-	5,41,0,0,306,307,5,51,0,0,307,308,5,6,0,0,308,39,1,0,0,0,309,310,5,42,0,
-	0,310,311,5,51,0,0,311,312,5,6,0,0,312,41,1,0,0,0,313,314,5,43,0,0,314,
-	315,5,6,0,0,315,43,1,0,0,0,316,317,5,44,0,0,317,318,5,6,0,0,318,45,1,0,
-	0,0,319,320,5,45,0,0,320,321,5,50,0,0,321,322,5,6,0,0,322,47,1,0,0,0,323,
-	324,5,46,0,0,324,325,3,50,25,0,325,49,1,0,0,0,326,335,5,49,0,0,327,332,
-	5,51,0,0,328,329,5,8,0,0,329,331,5,51,0,0,330,328,1,0,0,0,331,334,1,0,0,
-	0,332,330,1,0,0,0,332,333,1,0,0,0,333,336,1,0,0,0,334,332,1,0,0,0,335,327,
-	1,0,0,0,335,336,1,0,0,0,336,337,1,0,0,0,337,338,5,6,0,0,338,51,1,0,0,0,
-	42,55,58,63,69,76,78,86,95,98,103,112,115,118,122,126,128,135,140,146,151,
-	158,160,165,171,176,178,195,207,219,225,227,236,244,248,255,257,268,279,
-	291,297,332,335];
+	36,38,40,42,44,46,48,50,0,7,1,0,1,2,1,0,15,16,1,0,18,19,2,0,6,6,8,8,1,0,
+	19,20,2,0,13,13,23,23,1,0,40,41,366,0,52,1,0,0,0,2,82,1,0,0,0,4,88,1,0,
+	0,0,6,105,1,0,0,0,8,128,1,0,0,0,10,142,1,0,0,0,12,148,1,0,0,0,14,155,1,
+	0,0,0,16,162,1,0,0,0,18,167,1,0,0,0,20,178,1,0,0,0,22,195,1,0,0,0,24,197,
+	1,0,0,0,26,212,1,0,0,0,28,230,1,0,0,0,30,262,1,0,0,0,32,273,1,0,0,0,34,
+	284,1,0,0,0,36,301,1,0,0,0,38,305,1,0,0,0,40,309,1,0,0,0,42,313,1,0,0,0,
+	44,316,1,0,0,0,46,319,1,0,0,0,48,323,1,0,0,0,50,326,1,0,0,0,52,53,7,0,0,
+	0,53,55,5,50,0,0,54,56,3,10,5,0,55,54,1,0,0,0,55,56,1,0,0,0,56,58,1,0,0,
+	0,57,59,3,2,1,0,58,57,1,0,0,0,58,59,1,0,0,0,59,63,1,0,0,0,60,62,3,4,2,0,
+	61,60,1,0,0,0,62,65,1,0,0,0,63,61,1,0,0,0,63,64,1,0,0,0,64,69,1,0,0,0,65,
+	63,1,0,0,0,66,68,3,6,3,0,67,66,1,0,0,0,68,71,1,0,0,0,69,67,1,0,0,0,69,70,
+	1,0,0,0,70,78,1,0,0,0,71,69,1,0,0,0,72,79,3,18,9,0,73,75,3,8,4,0,74,73,
+	1,0,0,0,75,76,1,0,0,0,76,74,1,0,0,0,76,77,1,0,0,0,77,79,1,0,0,0,78,72,1,
+	0,0,0,78,74,1,0,0,0,79,80,1,0,0,0,80,81,5,3,0,0,81,1,1,0,0,0,82,83,5,4,
+	0,0,83,84,5,53,0,0,84,86,5,5,0,0,85,87,5,6,0,0,86,85,1,0,0,0,86,87,1,0,
+	0,0,87,3,1,0,0,0,88,89,5,7,0,0,89,98,5,50,0,0,90,95,5,48,0,0,91,92,5,8,
+	0,0,92,94,5,48,0,0,93,91,1,0,0,0,94,97,1,0,0,0,95,93,1,0,0,0,95,96,1,0,
+	0,0,96,99,1,0,0,0,97,95,1,0,0,0,98,90,1,0,0,0,98,99,1,0,0,0,99,100,1,0,
+	0,0,100,101,3,18,9,0,101,103,5,9,0,0,102,104,5,6,0,0,103,102,1,0,0,0,103,
+	104,1,0,0,0,104,5,1,0,0,0,105,106,5,10,0,0,106,115,5,50,0,0,107,112,3,16,
+	8,0,108,109,5,8,0,0,109,111,3,16,8,0,110,108,1,0,0,0,111,114,1,0,0,0,112,
+	110,1,0,0,0,112,113,1,0,0,0,113,116,1,0,0,0,114,112,1,0,0,0,115,107,1,0,
+	0,0,115,116,1,0,0,0,116,118,1,0,0,0,117,119,3,14,7,0,118,117,1,0,0,0,118,
+	119,1,0,0,0,119,120,1,0,0,0,120,122,5,11,0,0,121,123,5,6,0,0,122,121,1,
+	0,0,0,122,123,1,0,0,0,123,7,1,0,0,0,124,126,5,12,0,0,125,127,5,13,0,0,126,
+	125,1,0,0,0,126,127,1,0,0,0,127,129,1,0,0,0,128,124,1,0,0,0,128,129,1,0,
+	0,0,129,130,1,0,0,0,130,131,5,14,0,0,131,132,5,50,0,0,132,133,7,1,0,0,133,
+	135,5,52,0,0,134,136,3,10,5,0,135,134,1,0,0,0,135,136,1,0,0,0,136,137,1,
+	0,0,0,137,138,3,18,9,0,138,140,5,17,0,0,139,141,5,6,0,0,140,139,1,0,0,0,
+	140,141,1,0,0,0,141,9,1,0,0,0,142,144,7,2,0,0,143,145,3,12,6,0,144,143,
+	1,0,0,0,145,146,1,0,0,0,146,144,1,0,0,0,146,147,1,0,0,0,147,11,1,0,0,0,
+	148,151,5,48,0,0,149,150,7,1,0,0,150,152,5,52,0,0,151,149,1,0,0,0,151,152,
+	1,0,0,0,152,153,1,0,0,0,153,154,7,3,0,0,154,13,1,0,0,0,155,158,7,4,0,0,
+	156,159,3,16,8,0,157,159,7,3,0,0,158,156,1,0,0,0,158,157,1,0,0,0,159,160,
+	1,0,0,0,160,158,1,0,0,0,160,161,1,0,0,0,161,15,1,0,0,0,162,165,5,48,0,0,
+	163,164,5,15,0,0,164,166,5,52,0,0,165,163,1,0,0,0,165,166,1,0,0,0,166,17,
+	1,0,0,0,167,169,5,21,0,0,168,170,3,20,10,0,169,168,1,0,0,0,170,171,1,0,
+	0,0,171,169,1,0,0,0,171,172,1,0,0,0,172,19,1,0,0,0,173,174,5,51,0,0,174,
+	176,5,22,0,0,175,177,7,5,0,0,176,175,1,0,0,0,176,177,1,0,0,0,177,179,1,
+	0,0,0,178,173,1,0,0,0,178,179,1,0,0,0,179,180,1,0,0,0,180,181,3,22,11,0,
+	181,21,1,0,0,0,182,196,3,24,12,0,183,196,3,28,14,0,184,196,3,30,15,0,185,
+	196,3,32,16,0,186,196,3,34,17,0,187,196,3,36,18,0,188,196,3,38,19,0,189,
+	196,3,40,20,0,190,196,3,42,21,0,191,196,3,44,22,0,192,196,3,46,23,0,193,
+	196,3,48,24,0,194,196,3,50,25,0,195,182,1,0,0,0,195,183,1,0,0,0,195,184,
+	1,0,0,0,195,185,1,0,0,0,195,186,1,0,0,0,195,187,1,0,0,0,195,188,1,0,0,0,
+	195,189,1,0,0,0,195,190,1,0,0,0,195,191,1,0,0,0,195,192,1,0,0,0,195,193,
+	1,0,0,0,195,194,1,0,0,0,196,23,1,0,0,0,197,198,3,26,13,0,198,199,5,24,0,
+	0,199,207,5,52,0,0,200,201,5,25,0,0,201,202,3,26,13,0,202,203,5,24,0,0,
+	203,204,5,52,0,0,204,206,1,0,0,0,205,200,1,0,0,0,206,209,1,0,0,0,207,205,
+	1,0,0,0,207,208,1,0,0,0,208,210,1,0,0,0,209,207,1,0,0,0,210,211,5,6,0,0,
+	211,25,1,0,0,0,212,227,5,48,0,0,213,214,5,26,0,0,214,219,5,52,0,0,215,216,
+	5,8,0,0,216,218,5,52,0,0,217,215,1,0,0,0,218,221,1,0,0,0,219,217,1,0,0,
+	0,219,220,1,0,0,0,220,222,1,0,0,0,221,219,1,0,0,0,222,226,5,27,0,0,223,
+	224,5,28,0,0,224,226,5,49,0,0,225,213,1,0,0,0,225,223,1,0,0,0,226,229,1,
+	0,0,0,227,225,1,0,0,0,227,228,1,0,0,0,228,27,1,0,0,0,229,227,1,0,0,0,230,
+	231,5,29,0,0,231,232,5,52,0,0,232,234,5,30,0,0,233,235,3,20,10,0,234,233,
+	1,0,0,0,235,236,1,0,0,0,236,234,1,0,0,0,236,237,1,0,0,0,237,248,1,0,0,0,
+	238,239,5,31,0,0,239,240,5,52,0,0,240,242,5,30,0,0,241,243,3,20,10,0,242,
+	241,1,0,0,0,243,244,1,0,0,0,244,242,1,0,0,0,244,245,1,0,0,0,245,247,1,0,
+	0,0,246,238,1,0,0,0,247,250,1,0,0,0,248,246,1,0,0,0,248,249,1,0,0,0,249,
+	257,1,0,0,0,250,248,1,0,0,0,251,253,5,32,0,0,252,254,3,20,10,0,253,252,
+	1,0,0,0,254,255,1,0,0,0,255,253,1,0,0,0,255,256,1,0,0,0,256,258,1,0,0,0,
+	257,251,1,0,0,0,257,258,1,0,0,0,258,259,1,0,0,0,259,260,5,33,0,0,260,261,
+	5,6,0,0,261,29,1,0,0,0,262,263,5,34,0,0,263,264,5,52,0,0,264,266,5,35,0,
+	0,265,267,3,20,10,0,266,265,1,0,0,0,267,268,1,0,0,0,268,266,1,0,0,0,268,
+	269,1,0,0,0,269,270,1,0,0,0,270,271,5,36,0,0,271,272,5,6,0,0,272,31,1,0,
+	0,0,273,274,5,37,0,0,274,275,5,52,0,0,275,277,5,35,0,0,276,278,3,20,10,
+	0,277,276,1,0,0,0,278,279,1,0,0,0,279,277,1,0,0,0,279,280,1,0,0,0,280,281,
+	1,0,0,0,281,282,5,36,0,0,282,283,5,6,0,0,283,33,1,0,0,0,284,289,5,38,0,
+	0,285,286,5,48,0,0,286,287,7,1,0,0,287,288,5,52,0,0,288,290,7,3,0,0,289,
+	285,1,0,0,0,290,291,1,0,0,0,291,289,1,0,0,0,291,292,1,0,0,0,292,293,1,0,
+	0,0,293,295,5,35,0,0,294,296,3,20,10,0,295,294,1,0,0,0,296,297,1,0,0,0,
+	297,295,1,0,0,0,297,298,1,0,0,0,298,299,1,0,0,0,299,300,5,39,0,0,300,35,
+	1,0,0,0,301,302,7,6,0,0,302,303,5,52,0,0,303,304,5,6,0,0,304,37,1,0,0,0,
+	305,306,5,42,0,0,306,307,5,52,0,0,307,308,5,6,0,0,308,39,1,0,0,0,309,310,
+	5,43,0,0,310,311,5,52,0,0,311,312,5,6,0,0,312,41,1,0,0,0,313,314,5,44,0,
+	0,314,315,5,6,0,0,315,43,1,0,0,0,316,317,5,45,0,0,317,318,5,6,0,0,318,45,
+	1,0,0,0,319,320,5,46,0,0,320,321,5,51,0,0,321,322,5,6,0,0,322,47,1,0,0,
+	0,323,324,5,47,0,0,324,325,3,50,25,0,325,49,1,0,0,0,326,335,5,50,0,0,327,
+	332,5,52,0,0,328,329,5,8,0,0,329,331,5,52,0,0,330,328,1,0,0,0,331,334,1,
+	0,0,0,332,330,1,0,0,0,332,333,1,0,0,0,333,336,1,0,0,0,334,332,1,0,0,0,335,
+	327,1,0,0,0,335,336,1,0,0,0,336,337,1,0,0,0,337,338,5,6,0,0,338,51,1,0,
+	0,0,42,55,58,63,69,76,78,86,95,98,103,112,115,118,122,126,128,135,140,146,
+	151,158,160,165,171,176,178,195,207,219,225,227,236,244,248,255,257,268,
+	279,291,297,332,335];
 
 	private static __ATN: ATN;
 	public static get _ATN(): ATN {

@@ -21,13 +21,13 @@ procedure:
 process: ('fair' '+'?)? 'process' NAME ('=' | '\\in') EXPR vardecls? algorithmbody 'end process' ';'
 		?;
 
-vardecls: ('VARIABLE' | 'variables') vardecl+;
+vardecls: ('varialbe' | 'variables') vardecl+;
 
 vardecl: VARIABLE (('=' | '\\in') EXPR)? (';' | ',');
 
-// ドキュメントに書かれている構文規則
-pvardecls: ('VARIABLE' | 'variables') (pvardecl | (';' | ','))+;
-// 俺が思う本来の構文規則 PVarDecls2: ( 'VARIABLE' PVarDecl | 'variables' PVarDecl (',' PVarDecl)+ ) ';';
+pvardecls: ('variable' | 'variables') (pvardecl | (';' | ','))+;
+// 俺が思う本来の構文規則 
+// pvardecls2: ( 'variable' pvardecl | 'variables' pvardecl ((','|';') pvardecl)+ ) ';';
 
 pvardecl: VARIABLE ('=' EXPR)?;
 
@@ -82,6 +82,9 @@ call: 'call' macrocall;
 
 macrocall: NAME (EXPR (',' EXPR)*)? ';';
 
+/**
+ * lexer
+ */
 VARIABLE: [a-zA-Z_] [a-zA-Z_0-9]*;
 
 FIELD: [a-zA-Z_] [a-zA-Z_0-9]*;
