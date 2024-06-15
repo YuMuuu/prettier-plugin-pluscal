@@ -7,5 +7,11 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@tlaplus/tree-sitter-tlaplus": "^1.3.6",
+    "prettier": "^3.3.2",
+    "tree-sitter": "^0.21.1",
+    "ts-node": "^10.9.2"
+  }
 }
