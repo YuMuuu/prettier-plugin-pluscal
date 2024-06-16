@@ -1,6 +1,7 @@
 import { AST, AstPath, ParserOptions, Printer } from "prettier";
 import { builders } from "prettier/doc";
 import { doc } from "prettier";
+import { exprLiteralList, exprLiteralUnion } from "./expr";
 // import { openAsBlob } from "fs";
 import { parser } from "./parser";
 import { SyntaxNode } from "tree-sitter";
@@ -21,27 +22,36 @@ function genericPrint(
   new Error("");
 }
 
+const isExpr = (arg: string): arg is typeof exprLiteralUnion => {
+  return exprLiteralList.some((v) => v == arg);
+};
+
 function print(
-    path: AstPath<SyntaxNode>,
-    options: ParserOptions,
-    // Recursively print a child node
-    print: (selector?: string | number | Array<string | number> | AstPath<SyntaxNode>) => builders.Doc,
-)  {
+  path: AstPath<SyntaxNode>,
+  options: ParserOptions,
+  // Recursively print a child node
+  print: (
+    selector?: string | number | Array<string | number> | AstPath<SyntaxNode>
+  ) => builders.Doc
+) {
   console.log(path, options);
   const node = path.node;
-  path.node.type
 
-  switch(node.type) {
-    case 'list':
-        return group([
-            "(",
-            indent([softline, join(line, path.map(print, "elements"))]),
-            softline,
-            ")",
-          ]);
+  const nodeType = node.type
+  isExpr(nodeType) {
+    nodeType
+  }
+
+  switch (node.type) {
+    case "list":
+      return group([
+        "(",
+        indent([softline, join(line, path.map(print, "elements"))]),
+        softline,
+        ")",
+      ]);
     case "symbol":
-        return 'any';
-
+      return "any";
   }
 }
 

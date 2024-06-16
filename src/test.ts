@@ -2,6 +2,9 @@ import Parser from "tree-sitter";
 import {Query} from "tree-sitter";
 import TLA from "@tlaplus/tree-sitter-tlaplus";
 
+import nodeTypes from '@tlaplus/tree-sitter-tlaplus/src/node-types.json'
+//  assert { type: 'json' }
+
 
 const text = `
 
@@ -99,10 +102,35 @@ const parser = new Parser();
 parser.setLanguage(TLA);
 const tree = parser.parse(text);
 const callExpression = tree.rootNode.toString();
-console.log(callExpression);
+// console.log(callExpression);
 
-console.log('-----')
+// console.log('-----')
+
+// console.log(tree.rootNode.child(0))
+
+// console.log(tree.rootNode.child(1)?.startIndex)
+// console.log(tree.rootNode.child(1)?.startPosition)
+
+// console.log(tree.rootNode.child(1)?.endIndex)
+// console.log(tree.rootNode.child(1)?.endPosition)
+
+// console.log('-----')
+
+// console.log(nodeTypes)
+
+// console.log('-----')
 
 
-const query = new Query(TLA, '(def_eq) @capture')
-console.log(query.captures(tree.rootNode))
+// console.log(nodeTypes.map(e => e.type))
+// console.log('-----')
+
+const arr = nodeTypes.map(e => e.type) 
+
+const util = require('util');
+console.log(util.inspect(arr, { maxArrayLength: null }));
+
+// console.log('-----')
+
+
+// const query = new Query(TLA, '(def_eq) @capture')
+// console.log(query.captures(tree.rootNode))
