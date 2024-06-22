@@ -7,14 +7,28 @@ import { parser } from "./parser";
 import { SyntaxNode } from "tree-sitter";
 
 const { join, line, ifBreak, group } = doc.builders;
-const { indent, softline } = doc.builders;
+const { indent, softline, hardline } = doc.builders;
 
 
-function isExpr(arg: string): arg is typeof exprLiteralUnion  {
-  return exprLiteralUnion.includes(arg as typeof exprLiteralUnion)
-};
+// function isExpr(arg: string): arg is typeof exprLiteralUnion  {
+//   return exprLiteralUnion.includes(arg as typeof exprLiteralUnion)
+// };
 
-function _print(
+
+function insertLineBetweenElements(docs: builders.Doc[]): builders.Doc[] {
+  const result: builders.Doc[] = [];
+
+  docs.forEach((item, index) => {
+      result.push(item); 
+      if (index < docs.length - 1) {
+          result.push(line)
+      }
+  });
+
+  return result;
+}
+
+function printTLAPlus(
   path: AstPath<SyntaxNode>,
   options: ParserOptions,
   // Recursively print a child node
@@ -25,12 +39,20 @@ function _print(
   const nodeType = path.node.type
 
   switch (nodeType) {
+    case 'ERROR':
+      //note: root nodeがtree-sitter-tlaplusだとERRORになっているのでERRORの場合に子nodeを探索するようにする
+      // return path.map(print, 'children')
+      return group(insertLineBetweenElements(path.map(print, 'children')))
     case 'single_line':
-      return group([path.node.text, softline])
+      return path.node.text
     case 'MODULE':
-      return group([path.node.text, softline])
+      return path.node.text
     case 'identifier':
-      return group([path.node.text, softline])
+      return path.node.text
+    case ',':
+      return path.node.text  
+    // case 'program':
+      // return [join(hardline, path.map(print, 'children')), hardline]
 
   }
 }
@@ -43,7 +65,7 @@ const printer: Record<string, Printer> = {
       print: (path: AstPath<SyntaxNode>) => builders.Doc,
       args?: unknown
     ): builders.Doc {
-      return _print(path, options, print);
+      return printTLAPlus(path, options, print);
     },
   },
 };
