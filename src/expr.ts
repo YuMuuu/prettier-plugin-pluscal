@@ -185,7 +185,7 @@ const exprLiteralList = [
     'set_of_records',
     'sim',
     'simeq',
-    'single_line',
+    'single_line', //implimented
     'source_file',
     'sqcap',
     'sqcup',
@@ -310,7 +310,7 @@ const exprLiteralList = [
     'LEMMA',
     'LET',
     'LOCAL',
-    'MODULE',
+    'MODULE', //implimented
     'NEW',
     'Nat',
     'OBVIOUS',
@@ -431,7 +431,7 @@ const exprLiteralList = [
     'goto',
     'gt',
     'hashhash',
-    'identifier',
+    'identifier', //implimented
     'identifier_ref',
     'if',
     'level',
