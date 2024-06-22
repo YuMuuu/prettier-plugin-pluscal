@@ -573,6 +573,6 @@ const exprLiteralList = [
     '〉_'
   ] as const
 
-const exprLiteralUnion = typeof exprLiteralList
+type ExprLiteralUnion = typeof exprLiteralList[number]
 
-export  {exprLiteralList, exprLiteralUnion}
+// export  {exprLiteralList, exprLiteralUnion}
