@@ -1742,7 +1742,6 @@ const keyMap: Record<
   "〉_": (path, print) => {
     throw new Error("Function not implemented.");
   }
-} 
-// as const;
+} as const;
 
 export { keyMap };
