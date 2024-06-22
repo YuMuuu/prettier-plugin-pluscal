@@ -27,7 +27,10 @@ const keyMap: Record<
     // options: ParserOptions
   ) => builders.Doc
 > = {
-  ERROR: (path, print) => group(insertLineBetweenElements(path.map(print, "children"))),
+  ERROR: (path, print) =>{
+    //note: rootnodeがERRORになっているので、ERRORの子nodeを探索するようにしている
+    return group(insertLineBetweenElements(path.map(print, "children")))
+  } ,
   single_line: (path) => path.node.text,
   string: (path, print) => {
     throw new Error("Function not implemented.");
