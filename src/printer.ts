@@ -23,7 +23,7 @@ function printTLAPlus(
 }
 
 const printer: Record<string, Printer> = {
-  pluscal: {
+  tlaplus: {
     print: function (
       path: AstPath<SyntaxNode>,
       options: ParserOptions<any>,

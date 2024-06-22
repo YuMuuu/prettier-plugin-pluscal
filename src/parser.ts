@@ -23,7 +23,7 @@ function parse(
 const parser: Record<string, prettierParser> = {
   pluscal: {
     parse,
-    astFormat: "pluscal-ast",
+    astFormat: "tlaplus",
     locStart,
     locEnd,
   },
