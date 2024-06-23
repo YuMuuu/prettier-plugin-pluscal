@@ -437,7 +437,7 @@ const keyMap: Record<
   pick_proof_step: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  plus: (path, print) => path.node.text,
+  plus: (path, print) => group(path.map(print, "children")),
   plus_arrow: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -923,8 +923,8 @@ const keyMap: Record<
   algorithm: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  amp: (path, print) => path.node.text,
-  ampamp: (path, print) => path.node.text,
+  amp: (path, print) => group(path.map(print, "children")),
+  ampamp: (path, print) => group(path.map(print, "children")),
   assert: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -944,7 +944,7 @@ const keyMap: Record<
   comment: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  compose: (path, print) => path.node.text,
+  compose: (path, print) => group(path.map(print, "children")),
   define: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -987,7 +987,7 @@ const keyMap: Record<
   hashhash: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  identifier: (path, print) => path.node.text,
+  identifier: (path, print) => group(path.map(print, "children")),
   identifier_ref: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1000,13 +1000,13 @@ const keyMap: Record<
   macro: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  map_from: (path, print) => path.node.text,
-  map_to: (path, print) => path.node.text,
-  minusminus: (path, print) => path.node.text,
-  mod: (path, print) => path.node.text,
-  modmod: (path, print) => path.node.text,
-  mul: (path, print) => path.node.text,
-  mulmul: (path, print) => path.node.text,
+  map_from: (path, print) => group(path.map(print, "children")),
+  map_to: (path, print) => group(path.map(print, "children")),
+  minusminus: (path, print) => group(path.map(print, "children")),
+  mod: (path, print) => group(path.map(print, "children")),
+  modmod: (path, print) => group(path.map(print, "children")),
+  mul: (path, print) => group(path.map(print, "children")),
+  mulmul: (path, print) => group(path.map(print, "children")),
   name: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1026,7 +1026,7 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   placeholder: (path, print) => group(path.map(print, "children")),
-  plusplus: (path, print) => path.node.text,
+  plusplus: (path, print) => group(path.map(print, "children")),
   pow: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1051,12 +1051,12 @@ const keyMap: Record<
   return: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  setminus: (path, print) => path.node.text,
+  setminus: (path, print) => group(path.map(print, "children")),
   skip: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  slash: (path, print) => path.node.text,
-  slashslash: (path, print) => path.node.text,
+  slash: (path, print) => group(path.map(print, "children")),
+  slashslash: (path, print) => group(path.map(print, "children")),
   string_set: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1075,7 +1075,7 @@ const keyMap: Record<
   variables: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  vert: (path, print) => path.node.text,
+  vert: (path, print) => group(path.map(print, "children")),
   when: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1182,9 +1182,7 @@ const keyMap: Record<
   "⫤": (path, print) => path.node.text,
   "〈": (path, print) => path.node.text,
   "〉": (path, print) => path.node.text,
-  "〉_": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  "〉_": (path, print) => path.node.text,
 } as const;
 
 export { keyMap };
