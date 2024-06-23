@@ -27,10 +27,11 @@ const keyMap: Record<
     // options: ParserOptions
   ) => builders.Doc
 > = {
-  ERROR: (path, print) =>{
+  //memo: 純粋なtokenはnodeの値ではなく直接stringで記述したほうがパフォーマンス良さそう
+  ERROR: (path, print) => {
     //note: rootnodeがERRORになっているので、ERRORの子nodeを探索するようにしている
-    return group(insertLineBetweenElements(path.map(print, "children")))
-  } ,
+    return group(insertLineBetweenElements(path.map(print, "children")));
+  },
   single_line: (path) => path.node.text,
   string: (path, print) => {
     throw new Error("Function not implemented.");
@@ -725,156 +726,60 @@ const keyMap: Record<
   wr: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  "!": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "!!": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\"": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "#": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "(": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "(*": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "(+)": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "(-)": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "(.)": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "(/)": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "(\\X)": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ")": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "*)": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "+": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ",": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "-": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "-+->": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "----": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  "!": (path, print) => path.node.text,
+  "!!": (path, print) => path.node.text,
+  '"': (path, print) => path.node.text,
+  "#": (path, print) => path.node.text,
+  "(": (path, print) => path.node.text,
+  "(*": (path, print) => path.node.text,
+  "(+)": (path, print) => path.node.text,
+  "(-)": (path, print) => path.node.text,
+  "(.)": (path, print) => path.node.text,
+  "(/)": (path, print) => path.node.text,
+  "(\\X)": (path, print) => path.node.text,
+  ")": (path, print) => path.node.text,
+  "*)": (path, print) => path.node.text,
+  "+": (path, print) => path.node.text,
+  ",": (path, print) => path.node.text,
+  "-": (path, print) => path.node.text,
+  "-+->": (path, print) => path.node.text,
+  "----": (path, print) => path.node.text, //maybe unuse
   "--algorithm": (path, print) => {
     throw new Error("Function not implemented.");
   },
   "--fair": (path, print) => {
     throw new Error("Function not implemented.");
   },
-  "->": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "-|": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ".": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "..": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "...": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "/=": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "/\\": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ":": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "::": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "::=": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ":=": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ";": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "<": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "<-": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "<<": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "<=": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "<=>": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "<>": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "=": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "=<": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "==": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "====": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "=>": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "=|": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ">": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ">=": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ">>": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ">>_": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "??": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "@": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  "->": (path, print) =>　 path.node.text,
+  "-|": (path, print) => path.node.text,
+  ".": (path, print) => path.node.text,
+  "..": (path, print) => path.node.text,
+  "...": (path, print) => path.node.text,
+  "/=": (path, print) => path.node.text,
+  "/\\": (path, print) => path.node.text,
+  ":": (path, print) => path.node.text,
+  "::": (path, print) => path.node.text,
+  "::=": (path, print) => path.node.text,
+  ":=": (path, print) => path.node.text,
+  ";": (path, print) => path.node.text,
+  "<": (path, print) => path.node.text,
+  "<-": (path, print) => path.node.text,
+  "<<": (path, print) => path.node.text,
+  "<=": (path, print) => path.node.text,
+  "<=>": (path, print) => path.node.text,
+  "<>": (path, print) => path.node.text,
+  "=": (path, print) => path.node.text,
+  "=<": (path, print) => path.node.text,
+  "==": (path, print) => path.node.text,
+  "====": (path, print) => path.node.text, //maybe unuse
+  "=>": (path, print) => path.node.text,
+  "=|": (path, print) => path.node.text,
+  ">": (path, print) => path.node.text,
+  ">=": (path, print) => path.node.text,
+  ">>": (path, print) => path.node.text,
+  ">>_": (path, print) => path.node.text,
+  "??": (path, print) => path.node.text,
+  "@": (path, print) => path.node.text,
   ACTION: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1055,195 +960,69 @@ const keyMap: Record<
   WITNESS: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  "[": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "[]": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\/": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\A": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\AA": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\E": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\EE": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\X": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\approx": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\asymp": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\bigcirc": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\bullet": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\cap": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\cdot": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\circ": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\cong": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\cup": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\div": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\doteq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\equiv": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\exists": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\forall": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\geq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\gg": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\in": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\intersect": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\land": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\leq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\ll": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\lnot": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\lor": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\neg": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\notin": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\o": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\odot": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\ominus": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\oplus": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\oslash": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\otimes": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\prec": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\preceq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\propto": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\sim": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\simeq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\sqcap": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\sqcup": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\sqsubset": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\sqsubseteq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\sqsupset": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\sqsupseteq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\star": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\subset": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\subseteq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\succ": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\succeq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\supset": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\supseteq": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\times": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\union": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\uplus": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "\\wr": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "]": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "]_": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  "[": (path, print) => path.node.text,
+  "[]": (path, print) => path.node.text,
+  "\\/": (path, print) => path.node.text,
+  "\\A": (path, print) => path.node.text,
+  "\\AA": (path, print) => path.node.text,
+  "\\E": (path, print) => path.node.text,
+  "\\EE": (path, print) => path.node.text,
+  "\\X": (path, print) => path.node.text,
+  "\\approx": (path, print) => path.node.text,
+  "\\asymp": (path, print) => path.node.text,
+  "\\bigcirc": (path, print) => path.node.text,
+  "\\bullet": (path, print) => path.node.text,
+  "\\cap": (path, print) => path.node.text,
+  "\\cdot": (path, print) => path.node.text,
+  "\\circ": (path, print) => path.node.text,
+  "\\cong": (path, print) => path.node.text,
+  "\\cup": (path, print) => path.node.text,
+  "\\div": (path, print) => path.node.text,
+  "\\doteq": (path, print) => path.node.text,
+  "\\equiv": (path, print) => path.node.text,
+  "\\exists": (path, print) => path.node.text,
+  "\\forall": (path, print) => path.node.text,
+  "\\geq": (path, print) => path.node.text,
+  "\\gg": (path, print) => path.node.text,
+  "\\in": (path, print) => path.node.text,
+  "\\intersect": (path, print) => path.node.text,
+  "\\land": (path, print) => path.node.text,
+  "\\leq": (path, print) => path.node.text,
+  "\\ll": (path, print) => path.node.text,
+  "\\lnot": (path, print) => path.node.text,
+  "\\lor": (path, print) => path.node.text,
+  "\\neg": (path, print) => path.node.text,
+  "\\notin": (path, print) => path.node.text,
+  "\\o": (path, print) => path.node.text,
+  "\\odot": (path, print) => path.node.text,
+  "\\ominus": (path, print) => path.node.text,
+  "\\oplus": (path, print) => path.node.text,
+  "\\oslash": (path, print) => path.node.text,
+  "\\otimes": (path, print) => path.node.text,
+  "\\prec": (path, print) => path.node.text,
+  "\\preceq": (path, print) => path.node.text,
+  "\\propto": (path, print) => path.node.text,
+  "\\sim": (path, print) => path.node.text,
+  "\\simeq": (path, print) => path.node.text,
+  "\\sqcap": (path, print) => path.node.text,
+  "\\sqcup": (path, print) => path.node.text,
+  "\\sqsubset": (path, print) => path.node.text,
+  "\\sqsubseteq": (path, print) => path.node.text,
+  "\\sqsupset": (path, print) => path.node.text,
+  "\\sqsupseteq": (path, print) => path.node.text,
+  "\\star": (path, print) => path.node.text,
+  "\\subset": (path, print) => path.node.text,
+  "\\subseteq": (path, print) => path.node.text,
+  "\\succ": (path, print) => path.node.text,
+  "\\succeq": (path, print) => path.node.text,
+  "\\supset": (path, print) => path.node.text,
+  "\\supseteq": (path, print) => path.node.text,
+  "\\times": (path, print) => path.node.text,
+  "\\union": (path, print) => path.node.text,
+  "\\uplus": (path, print) => path.node.text,
+  "\\wr": (path, print) => path.node.text,
+  "]": (path, print) => path.node.text,
+  "]_": (path, print) => path.node.text,
   "^+": (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1448,300 +1227,106 @@ const keyMap: Record<
   with: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  "{": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "|-": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "|->": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "|=": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "||": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "}": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "~": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "~>": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "¬": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "×": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "÷": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "‖": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "‥": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "…": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "‼": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⁇": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⁺": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ℕ: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ℝ: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ℤ: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "←": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "→": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "↝": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "↦": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⇒": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⇔": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⇝": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⇸": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∀": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∃": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∈": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∉": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∘": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∝": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∧": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∨": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∩": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∪": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∷": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "∼": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≀": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≃": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≅": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≈": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≍": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≐": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≔": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≜": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≠": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≡": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≤": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≥": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≪": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≫": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≺": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "≻": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊂": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊃": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊆": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊇": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊎": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊏": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊐": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊑": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊒": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊓": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊔": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊕": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊖": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊗": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊘": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊙": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊢": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊣": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⊨": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⋄": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⋅": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⋆": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "□": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "◇": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "●": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "◯": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟨": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟩": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟩_": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟵": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟶": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟹": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟺": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⟼": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⥅": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⩴": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⪯": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⪰": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "⫤": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "〈": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "〉": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  "{": (path, print) => path.node.text,
+  "|-": (path, print) => path.node.text,
+  "|->": (path, print) => path.node.text,
+  "|=": (path, print) => path.node.text,
+  "||": (path, print) => path.node.text,
+  "}": (path, print) => path.node.text,
+  "~": (path, print) => path.node.text,
+  "~>": (path, print) => path.node.text,
+  "¬": (path, print) => path.node.text,
+  "×": (path, print) => path.node.text,
+  "÷": (path, print) => path.node.text,
+  "‖": (path, print) => path.node.text,
+  "‥": (path, print) => path.node.text,
+  "…": (path, print) => path.node.text,
+  "‼": (path, print) => path.node.text,
+  "⁇": (path, print) => path.node.text,
+  "⁺": (path, print) => path.node.text,
+  ℕ: (path, print) => path.node.text,
+  ℝ: (path, print) => path.node.text,
+  ℤ: (path, print) => path.node.text,
+  "←": (path, print) => path.node.text,
+  "→": (path, print) => path.node.text,
+  "↝": (path, print) => path.node.text,
+  "↦": (path, print) => path.node.text,
+  "⇒": (path, print) => path.node.text,
+  "⇔": (path, print) => path.node.text,
+  "⇝": (path, print) => path.node.text,
+  "⇸": (path, print) => path.node.text,
+  "∀": (path, print) => path.node.text,
+  "∃": (path, print) => path.node.text,
+  "∈": (path, print) => path.node.text,
+  "∉": (path, print) => path.node.text,
+  "∘": (path, print) => path.node.text,
+  "∝": (path, print) => path.node.text,
+  "∧": (path, print) => path.node.text,
+  "∨": (path, print) => path.node.text,
+  "∩": (path, print) => path.node.text,
+  "∪": (path, print) => path.node.text,
+  "∷": (path, print) => path.node.text,
+  "∼": (path, print) => path.node.text,
+  "≀": (path, print) => path.node.text,
+  "≃": (path, print) => path.node.text,
+  "≅": (path, print) => path.node.text,
+  "≈": (path, print) => path.node.text,
+  "≍": (path, print) => path.node.text,
+  "≐": (path, print) => path.node.text,
+  "≔": (path, print) => path.node.text,
+  "≜": (path, print) => path.node.text,
+  "≠": (path, print) => path.node.text,
+  "≡": (path, print) => path.node.text,
+  "≤": (path, print) => path.node.text,
+  "≥": (path, print) => path.node.text,
+  "≪": (path, print) => path.node.text,
+  "≫": (path, print) => path.node.text,
+  "≺": (path, print) => path.node.text,
+  "≻": (path, print) => path.node.text,
+  "⊂": (path, print) => path.node.text,
+  "⊃": (path, print) => path.node.text,
+  "⊆": (path, print) => path.node.text,
+  "⊇": (path, print) => path.node.text,
+  "⊎": (path, print) => path.node.text,
+  "⊏": (path, print) => path.node.text,
+  "⊐": (path, print) => path.node.text,
+  "⊑": (path, print) => path.node.text,
+  "⊒": (path, print) => path.node.text,
+  "⊓": (path, print) => path.node.text,
+  "⊔": (path, print) => path.node.text,
+  "⊕": (path, print) => path.node.text,
+  "⊖": (path, print) => path.node.text,
+  "⊗": (path, print) => path.node.text,
+  "⊘": (path, print) => path.node.text,
+  "⊙": (path, print) => path.node.text,
+  "⊢": (path, print) => path.node.text,
+  "⊣": (path, print) => path.node.text,
+  "⊨": (path, print) => path.node.text,
+  "⋄": (path, print) => path.node.text,
+  "⋅": (path, print) => path.node.text,
+  "⋆": (path, print) => path.node.text,
+  "□": (path, print) => path.node.text,
+  "◇": (path, print) => path.node.text,
+  "●": (path, print) => path.node.text,
+  "◯": (path, print) => path.node.text,
+  "⟨": (path, print) => path.node.text,
+  "⟩": (path, print) => path.node.text,
+  "⟩_": (path, print) => path.node.text,
+  "⟵": (path, print) => path.node.text,
+  "⟶": (path, print) => path.node.text,
+  "⟹": (path, print) => path.node.text,
+  "⟺": (path, print) => path.node.text,
+  "⟼": (path, print) => path.node.text,
+  "⥅": (path, print) => path.node.text,
+  "⩴": (path, print) => path.node.text,
+  "⪯": (path, print) => path.node.text,
+  "⪰": (path, print) => path.node.text,
+  "⫤": (path, print) => path.node.text,
+  "〈": (path, print) => path.node.text,
+  "〉": (path, print) => path.node.text,
   "〉_": (path, print) => {
     throw new Error("Function not implemented.");
-  }
+  },
 } as const;
 
 export { keyMap };

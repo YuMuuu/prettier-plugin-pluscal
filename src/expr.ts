@@ -1,3 +1,9 @@
+//note: 以下のscriptでexpr一覧を取得
+// import nodeTypes from '@tlaplus/tree-sitter-tlaplus/src/node-types.json'
+// const arr = nodeTypes.map(e => e.type) 
+// const util = require('util');
+// console.log(util.inspect(arr, { maxArrayLength: null }));
+
 const exprLiteralList = [
     '_expr',
     '_number',
