@@ -110,44 +110,55 @@ console.log(tree.rootNode)
 console.log('-----')
 
 console.log(tree.rootNode.child(0))
+console.log(tree.rootNode.child(0).type)
 console.log(tree.rootNode.child(0).text)
 
 console.log('-----')
 
 console.log(tree.rootNode.child(1))
+console.log(tree.rootNode.child(1).type)
 console.log(tree.rootNode.child(1).text)
 
 console.log('-----')
 
 console.log(tree.rootNode.child(2))
+console.log(tree.rootNode.child(2).type)
 console.log(tree.rootNode.child(2).text)
 
 console.log('-----')
 
 console.log(tree.rootNode.child(3))
+console.log(tree.rootNode.child(3).type)
 console.log(tree.rootNode.child(3).text)
 
 console.log('-----')
 
 console.log(tree.rootNode.child(4))
+console.log(tree.rootNode.child(4).type)
 console.log(tree.rootNode.child(4).text)
 
 console.log('-----')
 
 console.log(tree.rootNode.child(5))
+console.log(tree.rootNode.child(5).grammarId)
 console.log(tree.rootNode.child(5).text)
 
 console.log('-----')
 
 console.log(tree.rootNode.child(6))
+console.log(tree.rootNode.child(6).grammarId)
 console.log(tree.rootNode.child(6).text)
 
 console.log('-----')
 
 console.log(tree.rootNode.child(7))
+console.log(tree.rootNode.child(7).walk)
 console.log(tree.rootNode.child(7).text)
 
 
 
 // const query = new Query(TLA, '(def_eq) @capture')
 // console.log(query.captures(tree.rootNode))
+
+console.log('-----')
+console.log(tree.rootNode.child(6))
