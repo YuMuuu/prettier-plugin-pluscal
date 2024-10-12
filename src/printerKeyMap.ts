@@ -5,23 +5,29 @@ import { builders } from "prettier/doc";
 const { join, line, ifBreak, group } = builders;
 
 function insertLineBetweenElements(docs: Doc[]): Doc[] {
-  const result: Doc[] = [];
+  // const result: Doc[] = [];
 
-  docs.forEach((item, index) => {
-    result.push(item);
-    if (index < docs.length - 1) {
-      result.push(line);
-    }
-  });
+  // docs.forEach((item, index) => {
+  //   result.push(item);
+  //   if (index < docs.length - 1) {
+  //     result.push(line);
+  //   }
+  // });
 
-  return result;
+  // return result;
+  return docs.reduce<Doc[]>(
+    (acc, item, index) =>
+      index < docs.length - 1 ? [...acc, item, line] : [...acc, item],
+    [],
+  );
 }
 
 function separateLine(docs: Doc[]): Doc[] {
-  const a: Doc[] = docs.reduce<Doc[]>((acc, value) => {
-    return [...acc, value, line];
-  }, []);
-  return a;
+  // const a: Doc[] = docs.reduce<Doc[]>((acc, value) => {
+  //   return [...acc, value, line];
+  // }, []);
+  // return a;
+  return docs.flatMap((value) => [value, line]);
 }
 
 const keyMap: Record<
@@ -29,8 +35,8 @@ const keyMap: Record<
   (
     path: AstPath<SyntaxNode>,
     print: (
-      selector?: string | number | Array<string | number> | AstPath<SyntaxNode>
-    ) => builders.Doc
+      selector?: string | number | Array<string | number> | AstPath<SyntaxNode>,
+    ) => builders.Doc,
     // options: ParserOptions
   ) => builders.Doc
 > = {
@@ -53,9 +59,7 @@ const keyMap: Record<
   _unit: (path, print) => group(path.map(print, "children")),
   address: (path, print) => group(path.map(print, "children")),
   all_map_to: (path, print) => group(path.map(print, "children")),
-  always: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  always: (path, print) => path.node.text,
   approx: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -202,9 +206,7 @@ const keyMap: Record<
     //memo: extendsValuesのネストの掘り方が足りないかも
     return group([extendsKeyword, line, ...separateLine(extendsValues)]);
   },
-  fair: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  fair: (path, print) => path.node.text,
   fairness: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -638,12 +640,8 @@ const keyMap: Record<
   "-": (path, print) => path.node.text,
   "-+->": (path, print) => path.node.text,
   "----": (path, print) => path.node.text, //maybe unuse
-  "--algorithm": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  "--fair": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  "--algorithm": (path, print) => path.node.text,
+  "--fair": (path, print) => path.node.text,
   "->": (path, print) => path.node.text,
   "-|": (path, print) => path.node.text,
   ".": (path, print) => path.node.text,
@@ -674,186 +672,66 @@ const keyMap: Record<
   ">>_": (path, print) => path.node.text,
   "??": (path, print) => path.node.text,
   "@": (path, print) => path.node.text,
-  ACTION: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ASSUME: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ASSUMPTION: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  AXIOM: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  BY: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  CASE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  CHOOSE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  CONSTANT: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  CONSTANTS: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  COROLLARY: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  DEF: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  DEFINE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  DEFS: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  DOMAIN: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ELSE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ENABLED: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  EXCEPT: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  EXTENDS: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  FALSE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  HAVE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  HIDE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  IF: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  IN: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  INSTANCE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  Int: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  LAMBDA: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  LEMMA: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  LET: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  LOCAL: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  MODULE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  NEW: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  Nat: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  OBVIOUS: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  OMITTED: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ONLY: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  OTHER: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  PICK: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  PROOF: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  PROPOSITION: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  PROVE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  QED: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  RECURSIVE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  Real: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  SF_: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  STATE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  SUBSET: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  SUFFICES: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  TAKE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  TEMPORAL: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  THEN: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  THEOREM: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  TRUE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  UNCHANGED: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  UNION: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  USE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  VARIABLE: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  VARIABLES: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  WF_: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  WITH: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  WITNESS: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  ACTION: (path, print) => path.node.text,
+  ASSUME: (path, print) => path.node.text,
+  ASSUMPTION: (path, print) => path.node.text,
+  AXIOM: (path, print) => path.node.text,
+  BY: (path, print) => path.node.text,
+  CASE: (path, print) => path.node.text,
+  CHOOSE: (path, print) => path.node.text,
+  CONSTANT: (path, print) => path.node.text,
+  CONSTANTS: (path, print) => path.node.text,
+  COROLLARY: (path, print) => path.node.text,
+  DEF: (path, print) => path.node.text,
+  DEFINE: (path, print) => path.node.text,
+  DEFS: (path, print) => path.node.text,
+  DOMAIN: (path, print) => path.node.text,
+  ELSE: (path, print) => path.node.text,
+  ENABLED: (path, print) => path.node.text,
+  EXCEPT: (path, print) => path.node.text,
+  EXTENDS: (path, print) => path.node.text,
+  FALSE: (path, print) => path.node.text,
+  HAVE: (path, print) => path.node.text,
+  HIDE: (path, print) => path.node.text,
+  IF: (path, print) => path.node.text,
+  IN: (path, print) => path.node.text,
+  INSTANCE: (path, print) => path.node.text,
+  Int: (path, print) => path.node.text,
+  LAMBDA: (path, print) => path.node.text,
+  LEMMA: (path, print) => path.node.text,
+  LET: (path, print) => path.node.text,
+  LOCAL: (path, print) => path.node.text,
+  MODULE: (path, print) => path.node.text,
+  NEW: (path, print) => path.node.text,
+  Nat: (path, print) => path.node.text,
+  OBVIOUS: (path, print) => path.node.text,
+  OMITTED: (path, print) => path.node.text,
+  ONLY: (path, print) => path.node.text,
+  OTHER: (path, print) => path.node.text,
+  PICK: (path, print) => path.node.text,
+  PROOF: (path, print) => path.node.text,
+  PROPOSITION: (path, print) => path.node.text,
+  PROVE: (path, print) => path.node.text,
+  QED: (path, print) => path.node.text,
+  RECURSIVE: (path, print) => path.node.text,
+  Real: (path, print) => path.node.text,
+  SF_: (path, print) => path.node.text,
+  STATE: (path, print) => path.node.text,
+  SUBSET: (path, print) => path.node.text,
+  SUFFICES: (path, print) => path.node.text,
+  TAKE: (path, print) => path.node.text,
+  TEMPORAL: (path, print) => path.node.text,
+  THEN: (path, print) => path.node.text,
+  THEOREM: (path, print) => path.node.text,
+  TRUE: (path, print) => path.node.text,
+  UNCHANGED: (path, print) => path.node.text,
+  UNION: (path, print) => path.node.text,
+  USE: (path, print) => path.node.text,
+  VARIABLE: (path, print) => path.node.text,
+  VARIABLES: (path, print) => path.node.text,
+  WF_: (path, print) => path.node.text,
+  WITH: (path, print) => path.node.text,
+  WITNESS: (path, print) => path.node.text,
   "[": (path, print) => path.node.text,
   "[]": (path, print) => path.node.text,
   "\\/": (path, print) => path.node.text,
@@ -917,58 +795,34 @@ const keyMap: Record<
   "\\wr": (path, print) => path.node.text,
   "]": (path, print) => path.node.text,
   "]_": (path, print) => path.node.text,
-  "^+": (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  algorithm: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  "^+": (path, print) => path.node.text,
+  algorithm: (path, print) => path.node.text,
   amp: (path, print) => group(path.map(print, "children")),
   ampamp: (path, print) => group(path.map(print, "children")),
-  assert: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  assert: (path, print) => path.node.text,
   asterisk: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  await: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  begin: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  await: (path, print) => path.node.text,
+  begin: (path, print) => path.node.text,
   boolean_set: (path, print) => group(path.map(print, "children")),
-  call: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  call: (path, print) => path.node.text,
   comment: (path, print) => {
     throw new Error("Function not implemented.");
   },
   compose: (path, print) => group(path.map(print, "children")),
-  define: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  do: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  define: (path, print) => path.node.text,
+  do: (path, print) => path.node.text,
   dol: (path, print) => {
     throw new Error("Function not implemented.");
   },
   doldol: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  either: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  else: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  elsif: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  end: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  either: (path, print) => path.node.text,
+  else: (path, print) => path.node.text,
+  elsif: (path, print) => path.node.text,
+  end: (path, print) => path.node.text,
   escape_char: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -978,9 +832,7 @@ const keyMap: Record<
   format: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  goto: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  goto: (path, print) => path.node.text,
   gt: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -991,15 +843,11 @@ const keyMap: Record<
   identifier_ref: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  if: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  if: (path, print) => path.node.text,
   level: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  macro: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  macro: (path, print) => path.node.text,
   map_from: (path, print) => group(path.map(print, "children")),
   map_to: (path, print) => group(path.map(print, "children")),
   minusminus: (path, print) => group(path.map(print, "children")),
@@ -1010,9 +858,7 @@ const keyMap: Record<
   name: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  or: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  or: (path, print) => path.node.text,
   pcal_end_either: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -1036,25 +882,15 @@ const keyMap: Record<
   prime: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  print: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  procedure: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  process: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  print: (path, print) => path.node.text,
+  procedure: (path, print) => path.node.text,
+  process: (path, print) => path.node.text,
   real_number: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  return: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  return: (path, print) => path.node.text,
   setminus: (path, print) => group(path.map(print, "children")),
-  skip: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  skip: (path, print) => path.node.text,
   slash: (path, print) => group(path.map(print, "children")),
   slashslash: (path, print) => group(path.map(print, "children")),
   string_set: (path, print) => {
@@ -1063,28 +899,16 @@ const keyMap: Record<
   sup_hash: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  then: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  then: (path, print) => path.node.text,
   value: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  variable: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  variables: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  variable: (path, print) => path.node.text,
+  variables: (path, print) => path.node.text,
   vert: (path, print) => group(path.map(print, "children")),
-  when: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  while: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  with: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  when: (path, print) => path.node.text,
+  while: (path, print) => path.node.text,
+  with: (path, print) => path.node.text,
   "{": (path, print) => path.node.text,
   "|-": (path, print) => path.node.text,
   "|->": (path, print) => path.node.text,
