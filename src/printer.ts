@@ -1,9 +1,22 @@
 import { AstPath, Doc, ParserOptions, Printer } from "prettier";
 import { SyntaxNode } from "tree-sitter";
 import { keyMap } from "./printerKeyMap";
+import { builders } from "prettier/doc";
+import { exprLiteralList, ExprLiteralUnion } from "./expr";
+
+const { join, line, ifBreak, group } = builders;
+
+function insertLineBetweenElements(docs: Doc[]): Doc[] {
+  return docs.reduce<Doc[]>(
+    (acc, item, index) =>
+      index < docs.length - 1 ? [...acc, item, line] : [...acc, item],
+    [],
+  );
+}
 
 function isExpr(arg: string): arg is ExprLiteralUnion | "ERROR" {
-  return exprLiteralList.some((v) => v === arg);
+  const exprLiteralListOrErrorList = exprLiteralList;
+  return exprLiteralList.some((v) => v === arg) || arg === "ERROR";
 }
 
 function printTLAPlus(
@@ -13,15 +26,10 @@ function printTLAPlus(
     selector?: string | number | Array<string | number> | AstPath<SyntaxNode>,
   ) => Doc,
 ): Doc {
-  const node = path.getNode();
-  const nodeType = node.type;
-
-  if (node.hasError) {
-    throw new Error("Document has syntax error");
-  }
+  const nodeType = path.getNode().type;
 
   if (isExpr(nodeType)) {
-    return keyMap[nodeType](path, print);
+    return keyMap[nodeType](path, print, options);
   }
 }
 

@@ -581,4 +581,4 @@ const exprLiteralList = [
 
 type ExprLiteralUnion = (typeof exprLiteralList)[number];
 
-// export  {exprLiteralList, exprLiteralUnion}
+export { exprLiteralList, ExprLiteralUnion };

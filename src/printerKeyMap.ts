@@ -1,32 +1,19 @@
 import { AstPath, Doc, ParserOptions, doc } from "prettier";
 import { SyntaxNode } from "tree-sitter";
 import { builders } from "prettier/doc";
+import { ExprLiteralUnion } from "./expr";
 
-const { join, line, ifBreak, group } = builders;
+const { join, line, ifBreak, group, softline} = builders;
 
 function insertLineBetweenElements(docs: Doc[]): Doc[] {
-  // const result: Doc[] = [];
-
-  // docs.forEach((item, index) => {
-  //   result.push(item);
-  //   if (index < docs.length - 1) {
-  //     result.push(line);
-  //   }
-  // });
-
-  // return result;
   return docs.reduce<Doc[]>(
     (acc, item, index) =>
-      index < docs.length - 1 ? [...acc, item, line] : [...acc, item],
+      index < docs.length - 1 ? [...acc, item, softline] : [...acc, item],
     [],
   );
 }
 
 function separateLine(docs: Doc[]): Doc[] {
-  // const a: Doc[] = docs.reduce<Doc[]>((acc, value) => {
-  //   return [...acc, value, line];
-  // }, []);
-  // return a;
   return docs.flatMap((value) => [value, line]);
 }
 
@@ -37,13 +24,16 @@ const keyMap: Record<
     print: (
       selector?: string | number | Array<string | number> | AstPath<SyntaxNode>,
     ) => builders.Doc,
-    // options: ParserOptions
+    options: ParserOptions
   ) => builders.Doc
 > = {
   //memo: keywardはnodeの値ではなく直接stringで記述したほうがパフォーマンス良さそう
   ERROR: (path, print) => {
     //note: rootnodeがERRORになっているので、ERRORの子nodeを探索するようにしている
-    return group(insertLineBetweenElements(path.map(print, "children")));
+    // return group(insertLineBetweenElements(path.map(print, "children")));
+    // console.log("hello")
+
+    return insertLineBetweenElements(path.map(print, "children"));
   },
   single_line: (path) => path.node.text,
   string: (path, print) => path.node.text,
@@ -201,10 +191,7 @@ const keyMap: Record<
   },
   exists: (path, print) => group(path.map(print, "children")),
   extends: (path, print) => {
-    const extendsKeyword = path.call(print, "children", 0); // EXTENDS
-    const extendsValues = path.map(print, "children", 1); // repeated extends value
-    //memo: extendsValuesのネストの掘り方が足りないかも
-    return group([extendsKeyword, line, ...separateLine(extendsValues)]);
+    return insertLineBetweenElements(path.map(print, "children"))
   },
   fair: (path, print) => path.node.text,
   fairness: (path, print) => {
@@ -839,9 +826,11 @@ const keyMap: Record<
   hashhash: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  identifier: (path, print) => group(path.map(print, "children")),
+  identifier: (path, print) =>   path.node.text
+  ,
   identifier_ref: (path, print) => {
-    throw new Error("Function not implemented.");
+    // throw new Error("Function not implemented.");
+    return path.node.text;
   },
   if: (path, print) => path.node.text,
   level: (path, print) => {

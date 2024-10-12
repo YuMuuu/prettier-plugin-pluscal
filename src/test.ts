@@ -2,8 +2,10 @@ import Parser from "tree-sitter";
 import { Query } from "tree-sitter";
 import TLA from "@tlaplus/tree-sitter-tlaplus";
 
+import * as prettier from "prettier";
+
 import nodeTypes from "@tlaplus/tree-sitter-tlaplus/src/node-types.json";
-//  assert { type: 'json' }
+import { plugin } from "./index";
 
 const text = `-------------------------- MODULE state_transition --------------------------
 EXTENDS Integers, TLC
@@ -94,67 +96,25 @@ Termination == <>(\A self \in ProcSet: pc[self] = "Done")
 \* Created Sat Apr 20 15:02:16 JST 2024 by yumuuu
 `;
 
-console.log("hello");
+const text2 = `-------------------------- MODULE state_transition --------------------------
+EXTENDS Integers, TLC
+`;
+
+// console.log("hello");
 const parser = new Parser();
 parser.setLanguage(TLA);
-const tree = parser.parse(text);
-const callExpression = tree.rootNode.toString();
+const tree = parser.parse(text2);
+const callExpression = tree.rootNode
 console.log(callExpression);
 
-console.log("-----");
+async function f() {
+  const result = await prettier.format(text2, {
+    parser: "tlaplus",
+    plugins: [plugin],
+    printWidth: 80 //lineの動作検証のため最大長を決める
+  });
+  console.log(result);
+  return result;
+}
 
-console.log(tree.rootNode);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(0));
-console.log(tree.rootNode.child(0).type);
-console.log(tree.rootNode.child(0).text);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(1));
-console.log(tree.rootNode.child(1).type);
-console.log(tree.rootNode.child(1).text);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(2));
-console.log(tree.rootNode.child(2).type);
-console.log(tree.rootNode.child(2).text);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(3));
-console.log(tree.rootNode.child(3).type);
-console.log(tree.rootNode.child(3).text);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(4));
-console.log(tree.rootNode.child(4).type);
-console.log(tree.rootNode.child(4).text);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(5));
-console.log(tree.rootNode.child(5).grammarId);
-console.log(tree.rootNode.child(5).text);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(6));
-console.log(tree.rootNode.child(6).grammarId);
-console.log(tree.rootNode.child(6).text);
-
-console.log("-----");
-
-console.log(tree.rootNode.child(7));
-console.log(tree.rootNode.child(7).walk);
-console.log(tree.rootNode.child(7).text);
-
-// const query = new Query(TLA, '(def_eq) @capture')
-// console.log(query.captures(tree.rootNode))
-
-console.log("-----");
-console.log(tree.rootNode.child(6));
+f();
