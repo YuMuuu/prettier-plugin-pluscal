@@ -3,18 +3,22 @@ import { SyntaxNode } from "tree-sitter";
 import { builders } from "prettier/doc";
 import { ExprLiteralUnion } from "./expr";
 
-const { join, line, ifBreak, group, softline} = builders;
+const { join, line, ifBreak, group, softline, hardline, align } = builders;
 
 function insertLineBetweenElements(docs: Doc[]): Doc[] {
   return docs.reduce<Doc[]>(
     (acc, item, index) =>
-      index < docs.length - 1 ? [...acc, item, softline] : [...acc, item],
+      index < docs.length - 1 ? [...acc, item, line] : [...acc, item],
     [],
   );
 }
 
-function separateLine(docs: Doc[]): Doc[] {
-  return docs.flatMap((value) => [value, line]);
+function insertLineBetweenElementsSpace(docs: Doc[]): Doc[] {
+  return docs.reduce<Doc[]>(
+    (acc, item, index) =>
+      index < docs.length - 1 ? [...acc, item, " "] : [...acc, item],
+    [],
+  );
 }
 
 const keyMap: Record<
@@ -24,16 +28,18 @@ const keyMap: Record<
     print: (
       selector?: string | number | Array<string | number> | AstPath<SyntaxNode>,
     ) => builders.Doc,
-    options: ParserOptions
+    options: ParserOptions,
   ) => builders.Doc
 > = {
   //memo: keywardはnodeの値ではなく直接stringで記述したほうがパフォーマンス良さそう
   ERROR: (path, print) => {
     //note: rootnodeがERRORになっているので、ERRORの子nodeを探索するようにしている
-    // return group(insertLineBetweenElements(path.map(print, "children")));
-    // console.log("hello")
-
-    return insertLineBetweenElements(path.map(print, "children"));
+    const children = path.map(print, "children")
+    const header = children.slice(0, 4)
+    const body = children.slice(4)
+  
+    const result = [group(insertLineBetweenElements(header)), body]
+    return result
   },
   single_line: (path) => path.node.text,
   string: (path, print) => path.node.text,
@@ -191,7 +197,10 @@ const keyMap: Record<
   },
   exists: (path, print) => group(path.map(print, "children")),
   extends: (path, print) => {
-    return insertLineBetweenElements(path.map(print, "children"))
+    return group([
+      hardline,
+      path.map(print, "children")
+    ]);
   },
   fair: (path, print) => path.node.text,
   fairness: (path, print) => {
@@ -623,7 +632,7 @@ const keyMap: Record<
   ")": (path, print) => path.node.text,
   "*)": (path, print) => path.node.text,
   "+": (path, print) => path.node.text,
-  ",": (path, print) => path.node.text,
+  ",": (path, print) => [path.node.text, " "],
   "-": (path, print) => path.node.text,
   "-+->": (path, print) => path.node.text,
   "----": (path, print) => path.node.text, //maybe unuse
@@ -676,7 +685,7 @@ const keyMap: Record<
   ELSE: (path, print) => path.node.text,
   ENABLED: (path, print) => path.node.text,
   EXCEPT: (path, print) => path.node.text,
-  EXTENDS: (path, print) => path.node.text,
+  EXTENDS: (path, print) => [path.node.text, " "],
   FALSE: (path, print) => path.node.text,
   HAVE: (path, print) => path.node.text,
   HIDE: (path, print) => path.node.text,
@@ -826,10 +835,8 @@ const keyMap: Record<
   hashhash: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  identifier: (path, print) =>   path.node.text
-  ,
+  identifier: (path, print) => path.node.text,
   identifier_ref: (path, print) => {
-    // throw new Error("Function not implemented.");
     return path.node.text;
   },
   if: (path, print) => path.node.text,

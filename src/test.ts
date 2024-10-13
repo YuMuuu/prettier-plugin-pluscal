@@ -100,18 +100,17 @@ const text2 = `-------------------------- MODULE state_transition --------------
 EXTENDS Integers, TLC
 `;
 
-// console.log("hello");
 const parser = new Parser();
 parser.setLanguage(TLA);
 const tree = parser.parse(text2);
-const callExpression = tree.rootNode
-console.log(callExpression);
+const callExpression = tree.rootNode.toString();
+// console.log(callExpression);
 
 async function f() {
   const result = await prettier.format(text2, {
     parser: "tlaplus",
     plugins: [plugin],
-    printWidth: 80 //lineの動作検証のため最大長を決める
+    printWidth: 80, //lineの動作検証のため最大長を決める
   });
   console.log(result);
   return result;
