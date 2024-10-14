@@ -2,7 +2,7 @@ import { AstPath, Doc, ParserOptions, doc } from "prettier";
 import { SyntaxNode } from "tree-sitter";
 import { builders } from "prettier/doc";
 import { ExprLiteralUnion } from "./expr";
-import { chunk, chunk2 } from "./exprUtil";
+import { chunk } from "./exprUtil";
 // import { options } from "./options";
 
 const { join, line, ifBreak, group, softline, hardline, align, indent } =
@@ -385,11 +385,7 @@ const keyMap: Record<
   pcal_skip: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  pcal_var_decl: (path, print) => {
-    // return indent(group(insertLineBetweenElements(path.map(print, "children"))))
-    return group(path.map(print, "children"));
-  },
-
+  pcal_var_decl: (path, print) => group(insertLineBetweenElements(path.map(print, "children"))),
   pcal_var_decls: (path, print, options) => {
     // pcal_var_decls: $ => seq(
     //   choice('variable', 'variables'),
@@ -400,20 +396,12 @@ const keyMap: Record<
     //   )),
     //   optional(';')
     // ),
-    const breakCheck = path.node.text.trim().length > options.printWidth;
-
     const seq = path.map(print, "children");
     const choiceVar = seq.slice(0, 1);
-    const repeat = seq.slice(1);
-    const repeatValue = chunk2(repeat, 2);
-    const reqrs = repeatValue.map((v) => {
-      const _var = v.at(0); //pcal_var_decl
-      const mark = v.at(1); // "," or ";"
-      return group([breakCheck ? hardline : line, _var, mark]);
-    });
+    const repeat = chunk(seq.slice(1), 2); //{pcal_var_decls, "," or ";"}[]
+    const procesedrepeatValue = repeat.map((v) => [line, v]);
 
-    //repeatValueがbreakする場合は全体をindentさせる
-    return group([choiceVar, breakCheck ? indent(group(reqrs)) : group(reqrs)]);
+    return group([choiceVar, indent(group(procesedrepeatValue))]);
   },
   pcal_while: (path, print) => {
     throw new Error("Function not implemented.");
