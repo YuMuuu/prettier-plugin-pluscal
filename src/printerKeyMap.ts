@@ -2,21 +2,16 @@ import { AstPath, Doc, ParserOptions, doc } from "prettier";
 import { SyntaxNode } from "tree-sitter";
 import { builders } from "prettier/doc";
 import { ExprLiteralUnion } from "./expr";
+import { chunk, chunk2 } from "./exprUtil";
+// import { options } from "./options";
 
-const { join, line, ifBreak, group, softline, hardline, align } = builders;
+const { join, line, ifBreak, group, softline, hardline, align, indent } =
+  builders;
 
 function insertLineBetweenElements(docs: Doc[]): Doc[] {
   return docs.reduce<Doc[]>(
     (acc, item, index) =>
       index < docs.length - 1 ? [...acc, item, line] : [...acc, item],
-    [],
-  );
-}
-
-function insertLineBetweenElementsSpace(docs: Doc[]): Doc[] {
-  return docs.reduce<Doc[]>(
-    (acc, item, index) =>
-      index < docs.length - 1 ? [...acc, item, " "] : [...acc, item],
     [],
   );
 }
@@ -34,12 +29,16 @@ const keyMap: Record<
   //memo: keywardはnodeの値ではなく直接stringで記述したほうがパフォーマンス良さそう
   ERROR: (path, print) => {
     //note: rootnodeがERRORになっているので、ERRORの子nodeを探索するようにしている
-    const children = path.map(print, "children")
-    const header = children.slice(0, 4)
-    const body = children.slice(4)
-  
-    const result = [group(insertLineBetweenElements(header)), body]
-    return result
+    const children = path.map(print, "children");
+    const header = children.slice(0, 4);
+    const body = children.slice(4);
+
+    const result = [
+      group(insertLineBetweenElements(header)),
+      insertLineBetweenElements(body),
+    ];
+    // const result = insertLineBetweenElements(path.map(print, "children"))
+    return result;
   },
   single_line: (path) => path.node.text,
   string: (path, print) => path.node.text,
@@ -59,9 +58,7 @@ const keyMap: Record<
   approx: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  assign: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  assign: (path, print) => path.map(print, "children"),
   assume_prove: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -75,23 +72,20 @@ const keyMap: Record<
   binary_number: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  block_comment: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  block_comment_text: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  block_comment: (path, print) =>
+    insertLineBetweenElements(path.map(print, "children")),
+  block_comment_text: (path, print) => path.node.text,
   bnf_rule: (path, print) => {
     throw new Error("Function not implemented.");
   },
   bound_infix_op: (path, print) => {
-    throw new Error("Function not implemented.");
+    return insertLineBetweenElements(path.map(print, "children"));
   },
   bound_nonfix_op: (path, print) => {
-    throw new Error("Function not implemented.");
+    return insertLineBetweenElements(path.map(print, "children"));
   },
   bound_op: (path, print) => {
-    throw new Error("Function not implemented.");
+    return path.map(print, "children"); //?
   },
   bound_postfix_op: (path, print) => {
     throw new Error("Function not implemented.");
@@ -168,9 +162,7 @@ const keyMap: Record<
   enabled: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  eq: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  eq: (path, print) => path.map(print, "children"),
   equiv: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -197,10 +189,7 @@ const keyMap: Record<
   },
   exists: (path, print) => group(path.map(print, "children")),
   extends: (path, print) => {
-    return group([
-      hardline,
-      path.map(print, "children")
-    ]);
+    return [hardline, group([path.map(print, "children")])];
   },
   fair: (path, print) => path.node.text,
   fairness: (path, print) => {
@@ -219,9 +208,7 @@ const keyMap: Record<
   function_literal: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  geq: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  geq: (path, print) => path.map(print, "children"),
   gets: (path, print) => group(path.map(print, "children")),
   gg: (path, print) => {
     throw new Error("Function not implemented.");
@@ -241,15 +228,11 @@ const keyMap: Record<
   iff: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  implies: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  implies: (path, print) => path.map(print, "children"),
   in: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  infix_op_symbol: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  infix_op_symbol: (path, print) => path.map(print, "children"),
   inner_assume_prove: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -280,38 +263,22 @@ const keyMap: Record<
   let_in: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  ll: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  lnot: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  ll: (path, print) => path.map(print, "children"),
+  lnot: (path, print) => path.map(print, "children"),
   local_definition: (path, print) => group(path.map(print, "children")),
-  lor: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  ls_ttile: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  lt: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  lor: (path, print) => path.map(print, "children"),
+  ls_ttile: (path, print) => path.map(print, "children"),
+  lt: (path, print) => path.map(print, "children"),
   maps_to: (path, print) => group(path.map(print, "children")),
-  minus: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  module: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  minus: (path, print) => path.map(print, "children"),
+  module: (path, print) => path.map(print, "children"),
   module_definition: (path, print) => {
     throw new Error("Function not implemented.");
   },
   module_ref: (path, print) => {
-    throw new Error("Function not implemented.");
+    return insertLineBetweenElements(path.map(print, "children"));
   },
-  nat_number: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  nat_number: (path, print) => path.node.text,
   nat_number_set: (path, print) => group(path.map(print, "children")),
   negative: (path, print) => {
     throw new Error("Function not implemented.");
@@ -340,7 +307,7 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   operator_definition: (path, print) => {
-    throw new Error("Function not implemented.");
+    return insertLineBetweenElements(path.map(print, "children"));
   },
   oplus: (path, print) => group(path.map(print, "children")),
   oslash: (path, print) => group(path.map(print, "children")),
@@ -348,9 +315,7 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   otimes: (path, print) => group(path.map(print, "children")),
-  parentheses: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  parentheses: (path, print) => path.map(print, "children"),
   pcal_algorithm: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -358,7 +323,7 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   pcal_algorithm_start: (path, print) => {
-    throw new Error("Function not implemented.");
+    return path.map(print, "children");
   },
   pcal_assert: (path, print) => {
     throw new Error("Function not implemented.");
@@ -421,10 +386,34 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   pcal_var_decl: (path, print) => {
-    throw new Error("Function not implemented.");
+    // return indent(group(insertLineBetweenElements(path.map(print, "children"))))
+    return group(path.map(print, "children"));
   },
-  pcal_var_decls: (path, print) => {
-    throw new Error("Function not implemented.");
+
+  pcal_var_decls: (path, print, options) => {
+    // pcal_var_decls: $ => seq(
+    //   choice('variable', 'variables'),
+    //   $.pcal_var_decl,
+    //   repeat(seq(
+    //     choice(';', ','),
+    //     $.pcal_var_decl
+    //   )),
+    //   optional(';')
+    // ),
+    const breakCheck = path.node.text.trim().length > options.printWidth;
+
+    const seq = path.map(print, "children");
+    const choiceVar = seq.slice(0, 1);
+    const repeat = seq.slice(1);
+    const repeatValue = chunk2(repeat, 2);
+    const reqrs = repeatValue.map((v) => {
+      const _var = v.at(0); //pcal_var_decl
+      const mark = v.at(1); // "," or ";"
+      return group([breakCheck ? hardline : line, _var, mark]);
+    });
+
+    //repeatValueがbreakする場合は全体をindentさせる
+    return group([choiceVar, breakCheck ? indent(group(reqrs)) : group(reqrs)]);
   },
   pcal_while: (path, print) => {
     throw new Error("Function not implemented.");
@@ -510,7 +499,9 @@ const keyMap: Record<
   },
   sim: (path, print) => group(path.map(print, "children")),
   simeq: (path, print) => group(path.map(print, "children")),
-  source_file: (path, print) => group(path.map(print, "children")),
+  source_file: (path, print) => {
+    return insertLineBetweenElements(path.map(print, "children"));
+  },
   sqcap: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -632,7 +623,9 @@ const keyMap: Record<
   ")": (path, print) => path.node.text,
   "*)": (path, print) => path.node.text,
   "+": (path, print) => path.node.text,
-  ",": (path, print) => [path.node.text, " "],
+  ",": (path, print) => {
+    return ","; //ifBreak で出力する?
+  },
   "-": (path, print) => path.node.text,
   "-+->": (path, print) => path.node.text,
   "----": (path, print) => path.node.text, //maybe unuse
@@ -649,7 +642,9 @@ const keyMap: Record<
   "::": (path, print) => path.node.text,
   "::=": (path, print) => path.node.text,
   ":=": (path, print) => path.node.text,
-  ";": (path, print) => path.node.text,
+  ";": (path, print) => {
+    return ";"; //ifBreakで出力する?
+  },
   "<": (path, print) => path.node.text,
   "<-": (path, print) => path.node.text,
   "<<": (path, print) => path.node.text,
@@ -685,7 +680,7 @@ const keyMap: Record<
   ELSE: (path, print) => path.node.text,
   ENABLED: (path, print) => path.node.text,
   EXCEPT: (path, print) => path.node.text,
-  EXTENDS: (path, print) => [path.node.text, " "],
+  EXTENDS: (path, print) => [path.node.text, line],
   FALSE: (path, print) => path.node.text,
   HAVE: (path, print) => path.node.text,
   HIDE: (path, print) => path.node.text,
@@ -829,12 +824,8 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   goto: (path, print) => path.node.text,
-  gt: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
-  hashhash: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  gt: (path, print) => path.map(print, "children"),
+  hashhash: (path, print) => path.map(print, "children"),
   identifier: (path, print) => path.node.text,
   identifier_ref: (path, print) => {
     return path.node.text;

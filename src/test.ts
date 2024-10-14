@@ -98,19 +98,70 @@ Termination == <>(\A self \in ProcSet: pc[self] = "Done")
 
 const text2 = `-------------------------- MODULE state_transition --------------------------
 EXTENDS Integers, TLC
+
+(*--algorithm state_transiiton
+
+variables
+  state = "A",
+  created_date = 0,
+  current_date = 0,
+  max_count = 5;
+  
+define
+  Invariant == /\ (current_date = created_date => state = "A")
+               /\ (current_date = created_date + 1 => state = "B")
+               /\ (current_date >= created_date + 2 => state = "C")
+end define;
+
+
+process Transition = 1
+begin
+  UpdateState:
+    while current_date < max_count do
+      print << state, current_date>>;
+      if state = "A" /\ current_date = created_date then
+        state := "B";
+      elsif state = "B" /\ current_date = created_date + 1 then
+        state := "C";
+      end if;
+      current_date := current_date + 1;
+    end while;
+end process;
+
+end algorithm; *)
+`;
+
+const text3 = `-------------------------- MODULE state_transition --------------------------
+EXTENDS Integers, TLC
+
+(*--algorithm state_transiiton
+
+variables
+  state = "A",
+  created_date = 0,
+  max_count = 5;
+  
+define
+  Invariant == /\ (current_date = created_date => state = "A")
+               /\ (current_date = created_date + 1 => state = "B")
+               /\ (current_date >= created_date + 2 => state = "C")
+end define;
+
+end algorithm; *)
 `;
 
 const parser = new Parser();
 parser.setLanguage(TLA);
-const tree = parser.parse(text2);
+const tree = parser.parse(text3);
 const callExpression = tree.rootNode.toString();
-// console.log(callExpression);
+console.log(callExpression);
 
 async function f() {
-  const result = await prettier.format(text2, {
+  const result = await prettier.format(text3, {
     parser: "tlaplus",
     plugins: [plugin],
     printWidth: 80, //lineの動作検証のため最大長を決める
+    tabWidth: 2,
   });
   console.log(result);
   return result;
