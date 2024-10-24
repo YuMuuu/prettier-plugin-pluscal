@@ -138,7 +138,7 @@ VARIABLES state, created_date, current_date, max_count, pc
 \* Created Sat Apr 20 15:02:16 JST 2024 by yumuuu
 `;
 
-const test4= `-------------------------- MODULE test --------------------------
+const test4 = `-------------------------- MODULE test --------------------------
 EXTENDS Integers
 
 VARIABLE x
@@ -149,15 +149,13 @@ Next == x' = x + 1
 
 Spec == Init /\\ [][Next]_x
 ===================================================================
-`
+`;
 
 const parser = new Parser();
 parser.setLanguage(TLA);
-const tree = parser.parse( test4, null );
+const tree = parser.parse(test4, null);
 
 const callExpression = tree.rootNode.toString();
-
-
 
 async function f() {
   const result = await prettier.format(test4, {

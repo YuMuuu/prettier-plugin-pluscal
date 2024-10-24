@@ -4,7 +4,6 @@ import { builders } from "prettier/doc";
 const { join, line, ifBreak, group, softline, hardline, align, indent } =
   builders;
 
-  
 function chunk<T>(arr: T[], size: number): T[][] {
   if (size <= 0) throw new Error("Size must be greater than 0");
   if (arr.length === 0) return [];
@@ -22,4 +21,4 @@ function insertLineBetweenElements(docs: Doc[]): Doc[] {
   );
 }
 
-export { chunk, insertLineBetweenElements};
+export { chunk, insertLineBetweenElements };
