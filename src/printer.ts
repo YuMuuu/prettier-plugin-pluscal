@@ -6,14 +6,6 @@ import { exprLiteralList, ExprLiteralUnion } from "./expr";
 
 const { join, line, ifBreak, group } = builders;
 
-function insertLineBetweenElements(docs: Doc[]): Doc[] {
-  return docs.reduce<Doc[]>(
-    (acc, item, index) =>
-      index < docs.length - 1 ? [...acc, item, line] : [...acc, item],
-    [],
-  );
-}
-
 function isExpr(arg: string): arg is ExprLiteralUnion | "ERROR" {
   const exprLiteralListOrErrorList = exprLiteralList;
   return exprLiteralList.some((v) => v === arg) || arg === "ERROR";

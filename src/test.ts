@@ -1,5 +1,4 @@
 import Parser from "tree-sitter";
-import { Query } from "tree-sitter";
 import TLA from "@tlaplus/tree-sitter-tlaplus";
 
 import * as prettier from "prettier";
@@ -96,7 +95,7 @@ Termination == <>(\A self \in ProcSet: pc[self] = "Done")
 \* Created Sat Apr 20 15:02:16 JST 2024 by yumuuu
 `;
 
-const text2 = `-------------------------- MODULE state_transition --------------------------
+const text3 = `-------------------------- MODULE state_transition --------------------------
 EXTENDS Integers, TLC
 
 (*--algorithm state_transiiton
@@ -129,35 +128,39 @@ begin
 end process;
 
 end algorithm; *)
+\* BEGIN TRANSLATION (chksum(pcal) = "e3a749a2" /\ chksum(tla) = "c708672f")
+VARIABLES state, created_date, current_date, max_count, pc
+\* END TRANSLATION 
+
+=============================================================================
+\* Modification History
+\* Last modified Sat Apr 20 20:33:40 JST 2024 by yumuuu
+\* Created Sat Apr 20 15:02:16 JST 2024 by yumuuu
 `;
 
-const text3 = `-------------------------- MODULE state_transition --------------------------
-EXTENDS Integers, TLC
+const test4= `-------------------------- MODULE test --------------------------
+EXTENDS Integers
 
-(*--algorithm state_transiiton
+VARIABLE x
 
-variables
-  state = "A",
-  created_date = 0,
-  max_count = 5;
-  
-define
-  Invariant == /\ (current_date = created_date => state = "A")
-               /\ (current_date = created_date + 1 => state = "B")
-               /\ (current_date >= created_date + 2 => state = "C")
-end define;
+Init == x = 0
 
-end algorithm; *)
-`;
+Next == x' = x + 1
+
+Spec == Init /\\ [][Next]_x
+===================================================================
+`
 
 const parser = new Parser();
 parser.setLanguage(TLA);
-const tree = parser.parse(text3);
+const tree = parser.parse( test4, null );
+
 const callExpression = tree.rootNode.toString();
-console.log(callExpression);
+
+
 
 async function f() {
-  const result = await prettier.format(text3, {
+  const result = await prettier.format(test4, {
     parser: "tlaplus",
     plugins: [plugin],
     printWidth: 80, //lineの動作検証のため最大長を決める

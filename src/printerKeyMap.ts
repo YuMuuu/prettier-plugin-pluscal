@@ -2,19 +2,13 @@ import { AstPath, Doc, ParserOptions, doc } from "prettier";
 import { SyntaxNode } from "tree-sitter";
 import { builders } from "prettier/doc";
 import { ExprLiteralUnion } from "./expr";
-import { chunk } from "./exprUtil";
+import { chunk, insertLineBetweenElements } from "./printerUtil";
 // import { options } from "./options";
 
 const { join, line, ifBreak, group, softline, hardline, align, indent } =
   builders;
 
-function insertLineBetweenElements(docs: Doc[]): Doc[] {
-  return docs.reduce<Doc[]>(
-    (acc, item, index) =>
-      index < docs.length - 1 ? [...acc, item, line] : [...acc, item],
-    [],
-  );
-}
+
 
 const keyMap: Record<
   ExprLiteralUnion | "ERROR",
@@ -88,10 +82,10 @@ const keyMap: Record<
     return path.map(print, "children"); //?
   },
   bound_postfix_op: (path, print) => {
-    throw new Error("Function not implemented.");
+    return group(path.map(print, "children"))
   },
   bound_prefix_op: (path, print) => {
-    throw new Error("Function not implemented.");
+    return group(path.map(print, "children"))
   },
   bounded_quantification: (path, print) => {
     throw new Error("Function not implemented.");
@@ -157,7 +151,7 @@ const keyMap: Record<
   },
   dots_3: (path, print) => group(path.map(print, "children")),
   double_line: (path, print) => {
-    throw new Error("Function not implemented.");
+    return [hardline, path.node.text]
   },
   enabled: (path, print) => {
     throw new Error("Function not implemented.");
@@ -189,7 +183,7 @@ const keyMap: Record<
   },
   exists: (path, print) => group(path.map(print, "children")),
   extends: (path, print) => {
-    return [hardline, group([path.map(print, "children")])];
+    return [hardline, group([path.map(print, "children")]), hardline];
   },
   fair: (path, print) => path.node.text,
   fairness: (path, print) => {
@@ -216,9 +210,7 @@ const keyMap: Record<
   have_proof_step: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  header_line: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  header_line: (path, print) => path.node.text,
   hex_number: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -247,9 +239,7 @@ const keyMap: Record<
   lambda: (path, print) => {
     throw new Error("Function not implemented.");
   },
-  land: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  land: (path, print) => path.node.text,
   langle_bracket: (path, print) => group(path.map(print, "children")),
   ld_ttile: (path, print) => {
     throw new Error("Function not implemented.");
@@ -271,7 +261,9 @@ const keyMap: Record<
   lt: (path, print) => path.map(print, "children"),
   maps_to: (path, print) => group(path.map(print, "children")),
   minus: (path, print) => path.map(print, "children"),
-  module: (path, print) => path.map(print, "children"),
+  module: (path, print) => {
+    return path.map(print, "children")
+  },
   module_definition: (path, print) => {
     throw new Error("Function not implemented.");
   },
@@ -307,7 +299,37 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   operator_definition: (path, print) => {
-    return insertLineBetweenElements(path.map(print, "children"));
+    //     // Operator definition
+    // // max(a, b) == IF a > b THEN a ELSE b
+    // // a \prec b == a.val < b.val
+    // // x ≜ 〈 1, 2, 3, 4, 5 〉
+    // operator_definition: $ => seq(
+    //   choice(
+    //     arity0OrN(choice($.identifier, $._number_set), $._id_or_op_declaration),
+    //     seq(
+    //       field('name', $.prefix_op_symbol),
+    //       field('parameter', $.identifier)
+    //     ),
+    //     seq(
+    //       field('parameter', $.identifier),
+    //       field('name', $.infix_op_symbol),
+    //       field('parameter', $.identifier)
+    //     ),
+    //     seq(
+    //       field('parameter', $.identifier),
+    //       field('name', $.postfix_op_symbol)
+    //     )
+    //   ),
+    //   $.def_eq,
+    //   field('definition', $._expr)
+    // ),
+
+    const seq = path.map(print, "children");
+    const choiceVar = seq.slice(0, 1);
+    const eq = seq.slice(1, 2);
+    const def = seq.slice(2, 3);
+
+    return [hardline, hardline, group([choiceVar, line, indent([eq, line, indent([def])]) ])]
   },
   oplus: (path, print) => group(path.map(print, "children")),
   oslash: (path, print) => group(path.map(print, "children")),
@@ -488,7 +510,10 @@ const keyMap: Record<
   sim: (path, print) => group(path.map(print, "children")),
   simeq: (path, print) => group(path.map(print, "children")),
   source_file: (path, print) => {
-    return insertLineBetweenElements(path.map(print, "children"));
+    const nodes =  path.map(print, "children").flat()
+    const header = nodes.slice(0, 4)
+    const body = nodes.slice(4)
+    return [group(header.flatMap(item => [item, line])), group(body)] //memo: headerとbodyの間にhardlineを入れる？
   },
   sqcap: (path, print) => {
     throw new Error("Function not implemented.");
@@ -510,7 +535,8 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   step_expr_or_stutter: (path, print) => {
-    throw new Error("Function not implemented.");
+    // throw new Error("Function not implemented.");
+    return group(path.map(print, "children"))
   },
   subexpr_component: (path, print) => {
     throw new Error("Function not implemented.");
@@ -584,11 +610,16 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   variable_declaration: (path, print) => {
-    const variableOrVariablesKeyword = path.node.child(0).children;
-    const value = path.node.child(1).children;
-    //wip indentとかlineとか重要な箇所
-
-    throw new Error("Function not implemented.");
+  //   // VARIABLES v1, v2, v3
+  //   variable_declaration: $ => seq(
+  //     choice('VARIABLE', 'VARIABLES'),
+  //     commaList1($.identifier)
+  // ),
+    const seq = path.map(print, "children");
+    const choiceVar = seq.slice(0, 1);
+    const repeat = chunk(seq.slice(1), 2); //{identifier, "," or ";"}[]
+    const procesedrepeatValue = repeat.map((v) => [line, v]);
+    return [hardline, group([choiceVar, indent(group(procesedrepeatValue))])];  
   },
   vertvert: (path, print) => group(path.map(print, "children")),
   witness_proof_step: (path, print) => {
@@ -855,7 +886,8 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   prime: (path, print) => {
-    throw new Error("Function not implemented.");
+    // throw new Error("Function not implemented.");
+    return path.node.text //maybe
   },
   print: (path, print) => path.node.text,
   procedure: (path, print) => path.node.text,
@@ -866,7 +898,7 @@ const keyMap: Record<
   return: (path, print) => path.node.text,
   setminus: (path, print) => group(path.map(print, "children")),
   skip: (path, print) => path.node.text,
-  slash: (path, print) => group(path.map(print, "children")),
+  slash: (path, print) => path.node.text,
   slashslash: (path, print) => group(path.map(print, "children")),
   string_set: (path, print) => {
     throw new Error("Function not implemented.");
@@ -875,9 +907,7 @@ const keyMap: Record<
     throw new Error("Function not implemented.");
   },
   then: (path, print) => path.node.text,
-  value: (path, print) => {
-    throw new Error("Function not implemented.");
-  },
+  value: (path, print) => path.node.text,
   variable: (path, print) => path.node.text,
   variables: (path, print) => path.node.text,
   vert: (path, print) => group(path.map(print, "children")),
