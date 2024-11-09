@@ -12,9 +12,7 @@ const keyMap: Record<
   ExprLiteralUnion | "ERROR",
   (
     path: AstPath<SyntaxNode>,
-    print: (
-      selector?: string | number | Array<string | number> | AstPath<SyntaxNode>,
-    ) => builders.Doc,
+    print: (path: AstPath<SyntaxNode>) => Doc,
     options: ParserOptions,
   ) => builders.Doc
 > = {
@@ -510,6 +508,7 @@ const keyMap: Record<
     const nodes = path.map(print, "children").flat();
     const header = nodes.slice(0, 4);
     const body = nodes.slice(4);
+    console.log(body);
     return [group(header.flatMap((item) => [item, line])), group(body)]; //memo: headerとbodyの間にhardlineを入れる？
   },
   sqcap: (path, print) => {
